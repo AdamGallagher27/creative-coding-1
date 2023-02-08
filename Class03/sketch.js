@@ -7,8 +7,14 @@ let fruits = [
   {name:"bananas", sales:100},
   {name:"apples", sales:200},
   {name:"oranges", sales:300},
-  {name:"grapes", sales:200},
+  {name:"grapes", sales:1000},
   {name:"pears", sales:150},
+  {name:"pears", sales:600},
+  {name:"pears", sales:150},
+  {name:"pears", sales:150},
+  {name:"pears", sales:2001},
+  {name:"pears", sales:9001},
+  {name:"pears", sales:2001},
 ]
 
 // let numSales = []
@@ -74,7 +80,7 @@ function draw() {
   strokeWeight(1)
 
   let tGap = chartHeight / (chartTicks - 1)
-  let numGap = maxValue / (chartTicks)
+  let numGap = maxValue / (chartTicks - 1)
   
   line(0, 0, chartWidth, 0)
   line(0, 0, 0, -chartHeight)
@@ -83,7 +89,7 @@ function draw() {
     line(0, x*-tGap, -tickLength, -x*tGap)
     textSize(15)
     textAlign(RIGHT, CENTER)
-    text(x*tGap.toFixed(2), -10, x*-tGap)
+    text(x*numGap.toFixed(0), -10, x*-tGap)
   }
 
 }
