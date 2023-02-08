@@ -41,6 +41,7 @@ let masterGap = blockWidth + blockGap
 let maxValue = Math.max(...fruits.map( obj => obj.sales ));
 
 
+// changes given num to correct scale
 function scaleMe(num) {
   let maxValue = Math.max(...fruits.map( obj => obj.sales ));
   let scaleValue = chartHeight / maxValue;
@@ -74,17 +75,18 @@ function draw() {
     pop();
   }
 
-  // draws X axis
-  // draw black line horizontally
+  // draws X / Y axis
   stroke(0)
   strokeWeight(1)
-
-  let tGap = chartHeight / (chartTicks - 1)
-  let numGap = maxValue / (chartTicks - 1)
-  
   line(0, 0, chartWidth, 0)
   line(0, 0, 0, -chartHeight)
 
+  // tgap = tick gap
+  let tGap = chartHeight / (chartTicks - 1)
+  // num gap = numbers beside the gap
+  let numGap = maxValue / (chartTicks - 1)
+  
+  // draws the ticks and the numbers
   for(let x = 0; x < chartTicks; x++) {
     line(0, x*-tGap, -tickLength, -x*tGap)
     textSize(15)
