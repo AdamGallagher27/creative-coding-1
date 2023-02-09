@@ -1,6 +1,6 @@
 // initial data
 const initialData = [
-  { name: 'cars', value: 25 },
+  { name: 'cars', value: 75 },
   { name: 'buses', value: 25 },
   { name: 'buses', value: 25 },
   { name: 'buses', value: 25 },
@@ -21,27 +21,31 @@ const pieY = 250
 const maxData = Math.max(...initialData.map(obj => obj.value));
 
 
+
 // function for converting the value to a percentage
 // ...ie cleaning
 function getPercent(data) {
 
   let final = []
+  const colorScale = scaleColor()
   const sum = data.reduce((accumulator, object) => {
     return accumulator + object.value;
   }, 0);
 
-  data.forEach(element => {
+
+  data.forEach((element, index) => {
 
     // should use class / contructor here
     let current = {
       name: element.name,
       percent: (element.value / sum) * 100,
-      color: (this.percent / 255) * 100
+      color: colorScale * (index + 1)
     }
 
     final.push(current)
   }, 0);
 
+  console.log(final)
   return final
 }
 
@@ -50,19 +54,20 @@ function drawSegments(data) {
 
   // holds all angles of previous rotations
   let rotations = []
+  const firstData = data[0]
 
   // draw first segment in same position every time
-  const firstSeg = (data[0].percent / 100) * 360
+  const firstSeg = (firstData.percent / 100) * 360
   rotations.push(firstSeg)
   push()
-  fill(0, 255, 0)
+  fill(0, firstData.color, 200)
   arc(0, 0, pieX, pieY, 0, firstSeg)
   pop()
 
   // loop through the rest of the data
   for (let i = 1; i < data.length; i++) {
     push()
-    fill(random(100, 255), 0, 0)
+    fill(0, data[i].color, 200)
 
     // current segment / the sum of all previous rotations
     const currentSeg = (data[i].percent / 100) * 360
@@ -80,6 +85,15 @@ function drawSegments(data) {
   }
 
 }
+
+
+// function for scaling colour
+function scaleColor() {
+  const numColors = initialData.length
+  const range = 255
+  return range / numColors
+}
+
 
 // set up
 function setup() {
