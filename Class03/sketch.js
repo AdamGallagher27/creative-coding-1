@@ -3,18 +3,12 @@
 // let data = [12, 100, 150, 90, 200, 100, 12 , 200, 35, 300]
 
 // data as array of objects 
-let fruits = [
-  {name:"bananas", sales:100},
-  {name:"apples", sales:200},
-  {name:"oranges", sales:300},
-  {name:"grapes", sales:1000},
-  {name:"pears", sales:150},
-  {name:"pears", sales:600},
-  {name:"pears", sales:150},
-  {name:"pears", sales:150},
-  {name:"pears", sales:2001},
-  {name:"pears", sales:9001},
-  {name:"pears", sales:2001},
+let travel = [
+  {name:"car", value:100},
+  {name:"bus", value:2000},
+  {name:"walking", value:300},
+  {name:"cycle", value:4500},
+  
 ]
 
 // let numSales = []
@@ -22,7 +16,7 @@ let fruits = [
 
 
 // global variables
-let numBlocks = fruits.length;
+let numBlocks = travel.length;
 let chartWidth = 200;
 let chartHeight = 300;
 let chartX = 100
@@ -38,12 +32,12 @@ let tickLength = 5;
 // calculations from globals
 let blockWidth = (chartWidth - (marginLeft + marginRight) - ((numBlocks - 1) * blockGap)) / numBlocks;
 let masterGap = blockWidth + blockGap
-let maxValue = Math.max(...fruits.map( obj => obj.sales ));
+let maxValue = Math.max(...travel.map( obj => obj.value ));
 
 
 // changes given num to correct scale
 function scaleMe(num) {
-  let maxValue = Math.max(...fruits.map( obj => obj.sales ));
+  let maxValue = Math.max(...travel.map( obj => obj.value ));
   let scaleValue = chartHeight / maxValue;
 
   return num * scaleValue
@@ -70,8 +64,8 @@ function draw() {
   for (let i = 0; i < numBlocks; i++) {
     push();
     translate(marginLeft + (i * masterGap), 0)
-    fill(fruits[i].sales, 0, 0)
-    rect(0, 0, blockWidth, scaleMe(-fruits[i].sales));
+    fill(travel[i].value, 0, 0)
+    rect(0, 0, blockWidth, scaleMe(-travel[i].value));
     pop();
   }
 
