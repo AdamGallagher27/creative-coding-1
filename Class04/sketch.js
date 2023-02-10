@@ -72,20 +72,41 @@ function draw() {
   // draws X / Y axis
   stroke(0)
   strokeWeight(1)
-  line(0, 0, chartWidth, 0)
-  line(0, 0, 0, -chartHeight)
+  
+
+
+  drawAxis(0, chartHeight, createVector(0, 0), true)
+  drawAxis(90, chartWidth, createVector(0, 0))
+  drawAxis(700, chartWidth)
+  drawAxis(10, chartWidth)
+  drawAxis(30, chartWidth, )
+
+
+}
+
+
+function drawAxis( _angle, _length, _pos, _lable=false, _nTicks=5) {
 
   // tgap = tick gap
-  let tGap = chartHeight / (chartTicks - 1)
+  let tGap = chartHeight / (_nTicks - 1)
   // num gap = numbers beside the gap
-  let numGap = maxValue / (chartTicks - 1)
+  let numGap = maxValue / (_nTicks - 1)
   
+
+  translate(_pos.x, _pos.y)
+  rotate(_angle)
+  line(0, 0, 0, -_length)
+
+
   // draws the ticks and the numbers
-  for(let x = 0; x < chartTicks; x++) {
-    line(0, x*-tGap, -tickLength, -x*tGap)
-    textSize(15)
-    textAlign(RIGHT, CENTER)
-    text(x*numGap.toFixed(0), -10, x*-tGap)
+  for(let x = 0; x < _nTicks; x++) {
+    
+    if(_lable) {
+      line(0, x*-tGap, -tickLength, -x*tGap)
+      textSize(15)
+      textAlign(RIGHT, CENTER)
+      text(x*numGap.toFixed(0), -10, x*-tGap)
+    }
   }
 
 }
