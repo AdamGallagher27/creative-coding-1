@@ -2,10 +2,10 @@
 const initialData = [
   { name: 'cars', value: 75 },
   { name: 'buses', value: 25 },
-  { name: 'buses', value: 25 },
-  { name: 'buses', value: 25 },
-  { name: 'buses', value: 25 },
-  { name: 'buses', value: 25 },
+  { name: 'trucks', value: 25 },
+  { name: 'bikes', value: 25 },
+  { name: 'walking', value: 25 },
+  { name: 'scooter', value: 25 },
 ]
 
 // clean data
@@ -62,6 +62,9 @@ function drawSegments(data) {
   push()
   fill(0, firstData.color, 200)
   arc(0, 0, pieX, pieY, 0, firstSeg)
+
+  translate(165, 0)
+  text(firstData.name + ` (${firstData.percent}%)`, 0, 0)
   pop()
 
   // loop through the rest of the data
@@ -75,14 +78,26 @@ function drawSegments(data) {
       return accumulator + object;
     })
 
+    // variable for setting the text to be upright 
+    const upRight = (360 - prevRotations ) - (-rotations[i-1])/2 
+
     // add current segment to rotations
     rotations.push(currentSeg)
 
     // rotate the sum of previous rotations then draw the arc of current seg
     rotate(prevRotations)
     arc(0, 0, pieX, pieY, 0, currentSeg)
+
+    rotate((-rotations[i-1])/2 )
+    push()
+    textAlign(CENTER);
+    translate(165, 0)
+    rotate(upRight)
+    text(data[i].name + ` (${data[i].percent}%)`, 0, 0)
+    pop()
     pop()
   }
+
 
 }
 
@@ -97,7 +112,7 @@ function scaleColor() {
 
 // set up
 function setup() {
-  createCanvas(screenWidth, screenHeight);
+  createCanvas(screenWidth, screenHeight)
   background(200)
   angleMode(DEGREES)
   getPercent(initialData)
