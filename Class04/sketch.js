@@ -77,10 +77,10 @@ function draw() {
 
   drawAxis(0, chartHeight, createVector(0, 0), true)
   drawAxis(90, chartWidth, createVector(0, 0))
-  drawAxis(700, chartWidth)
-  drawAxis(10, chartWidth)
-  drawAxis(30, chartWidth, )
-
+  // drawAxis(700, chartWidth)
+  // drawAxis(10, chartWidth)
+  // drawAxis(30, chartWidth, )
+  // drawAxis(50, chartWidth, createVector(50, 50))
 
 }
 
