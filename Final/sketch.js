@@ -14,7 +14,21 @@ const values = [
 ]
 
 
-const barChart = new BarChart(400, 200, 90, 450, values, "Sales Workers", "Sales This Year")
+// pie chart global variables
+const pieWidth = 250
+const pieHeight = 250
+const PiePosX = 600
+const PiePosy = 250
+const pieChart = new Pie(pieWidth, pieHeight, PiePosX, PiePosy, values)
+
+// bar chart global variables
+const barChartWidth = 400
+const barChartHeight = 200
+const barChartPosX = 90
+const barChartPosy = 450
+const barChartXLable = "Sales Workers"
+const barChartYLable = "Sales This Year"
+const barChart = new BarChart(barChartWidth, barChartHeight, barChartPosX, barChartPosy, values, barChartXLable, barChartYLable )
 
 
 const screenWidth = 900
@@ -30,5 +44,5 @@ function setup() {
 
 function draw() {
   barChart.render()
-
+  pieChart.render()
 }
