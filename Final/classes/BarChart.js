@@ -1,13 +1,14 @@
 
 class BarChart {
     // constructs object
-    constructor(_height, _width, _posX, _posY, _data, _xLable='', _Ylable='') {
+    constructor(_height, _width, _posX, _posY, _data, _xLable='', _yLable='') {
         this.height = _height
         this.width = _width
         this.posX = _posX
         this.posY = _posY
         this.data = _data
         this.xLable = _xLable
+        this.yLable = _yLable
 
         // globals
         this.valGap = 5
