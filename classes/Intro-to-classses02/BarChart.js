@@ -1,7 +1,7 @@
 
 class BarChart {
     // constructs object
-    constructor(_height, _width, _posX, _posY, _data) {
+    constructor(_height, _width, _posX, _posY, _data, xLable, Ylable) {
         this.height = _height
         this.width = _width
         this.posX = _posX
@@ -11,11 +11,12 @@ class BarChart {
         this.valGap = 5
         this.nBlocks = this.data.length
         this.marginL = 20
+        this.marginT = 10
+        this.tickWidth = 10
         this.nTicks = 5
         this.blockWidth = (this.width - (this.marginL * 2) - ((this.nBlocks - 1))) / this.nBlocks
         this.mainGap = this.blockWidth + this.valGap
         this.maxVal = Math.max(...this.data);
-
     }
 
     // renders the chart
@@ -50,31 +51,39 @@ class BarChart {
 
 
             for(let i = 0; i <= this.nTicks; i++) {
-                line(0, i*-tGap, -6, -i*tGap)
+                noStroke()
                 textAlign(RIGHT, CENTER)
-                text(i*numGap.toFixed(0), -10, i*-tGap)
+                fill(0)
+                text(i*numGap.toFixed(0), -this.tickWidth, i*-tGap)
+                stroke(0)
+                line(0, i*-tGap, -6, -i*tGap)
             }
         }
 
     }
 
-    // // draws the horizontal axis
-    // drawHorizontal() {
-    //     noFill()
-    //     stroke(50)
-    //     line(0, 0, this.width, 0)
-    // }
+
+    barTitle(height, value) {
+        fill(0)
+        const xAxis = (this.blockWidth / 2)
+        textAlign(CENTER)
+        text(value, xAxis, -height - this.marginT)
+    }
+
 
     // draws the bars on the chart
     drawBars() {
 
-        let data = this.scaleChart(this.data)
+        let scaleData = this.scaleChart(this.data)
+
+        noStroke()
 
         for (let i = 0; i < this.nBlocks; i++) {
             push();
             translate(this.marginL + (i * this.mainGap), 0)
-            fill(data[i], 0, 0)
-            rect(0, 0, this.blockWidth, -data[i]);
+            fill(scaleData[i], 0, 0)
+            rect(0, 0, this.blockWidth, -scaleData[i]);
+            this.barTitle(scaleData[i], this.data[i])
             pop();
         }
     }
