@@ -7,7 +7,10 @@ const initialData = [
   { name: 'Brian', value: 100 },
   { name: 'Sean', value: 20 },
   { name: 'Holly', value: 10 },
-  { name: 'Eleanor', value: 300 }
+  { name: 'Eleanor', value: 300 },
+  { name: 'Adam', value: 80 },
+  { name: 'Niamh', value: 40 },
+  { name: 'Sarah', value: 10},
 ]
 
 // clean data
@@ -134,6 +137,11 @@ function scaleColor() {
 }
 
 
+
+const pieChart = new Pie(pieX, pieY, 0, 0, data)
+
+console.log(pieChart)
+
 // set up
 function setup() {
   createCanvas(screenWidth, screenHeight)
@@ -151,5 +159,7 @@ function draw() {
   // translate to draw from origin in center
   // draw the piechart
   translate(transX, transY)
-  makePie(data)
+  // makePie(data)
+  pieChart.render()
+
 }
