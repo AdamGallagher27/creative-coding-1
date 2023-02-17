@@ -16,16 +16,13 @@ let charts = []
 
 
 function setup() {
-  createCanvas(500, 500);
-  background(200);
+  createCanvas(700, 700);
+  background(240);
   angleMode(DEGREES);
   rectMode(CORNER);
   noLoop();
 
-  // charts.push(new BarChart(400, 400, 50, 450, fruits))
-
-  // charts.push(new BarChart(200, 200, 50, 250, fruits))
-  charts.push(new BarChart(400, 200, 50, 450, values))
+  charts.push(new BarChart(400, 200, 90, 450, values, "Sales Workers", "Sales This Year"))
 
 }
 

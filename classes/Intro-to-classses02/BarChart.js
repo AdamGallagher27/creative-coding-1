@@ -1,23 +1,25 @@
 
 class BarChart {
     // constructs object
-    constructor(_height, _width, _posX, _posY, _data, xLable='', Ylable='') {
+    constructor(_height, _width, _posX, _posY, _data, _xLable='', _Ylable='') {
         this.height = _height
         this.width = _width
         this.posX = _posX
         this.posY = _posY
         this.data = _data
+        this.xLable = _xLable
 
         this.valGap = 5
         this.nBlocks = this.data.length
         this.marginL = 20
         this.marginT = 10
         this.marginB = 10
+        this.marginAxisT = 70
+        this.marginAxisL = 50
         this.tickWidth = 10
         this.nTicks = 5
         this.blockWidth = (this.width - (this.marginL * 2) - ((this.nBlocks - 1))) / this.nBlocks
         this.mainGap = this.blockWidth + this.valGap
-        // this.maxVal = Math.max(...this.data.value);
         this.maxVal = Math.max(...this.data.map(object => object.value))
     }
 
@@ -36,7 +38,13 @@ class BarChart {
     }
 
     axisTitles() {
-        text(this.xLable, this.width / 2, 20)
+        textSize(18);
+        textAlign(CENTER)
+        noStroke()
+        text(this.xLable, this.width / 2, this.marginAxisT)
+
+        rotate(-90)
+        text(this.xLable, this.height / 2, -this.marginAxisL)
     }
 
 
@@ -94,7 +102,7 @@ class BarChart {
         for (let i = 0; i < this.nBlocks; i++) {
             push();
             translate(this.marginL + (i * this.mainGap), 0)
-            fill(scaleData[i], 0, 0)
+            fill(255, 191, 0)
             rect(0, 0, this.blockWidth, -scaleData[i]);
             this.barTitle(scaleData[i], this.data[i].value, this.data[i].name)
             pop();
