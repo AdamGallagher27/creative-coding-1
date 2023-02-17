@@ -1,5 +1,10 @@
 
-let values = [23, 56, 78, 90, 50, 20, 15 ]
+let values = [
+  {name: "Adam", value:20},
+  {name: "Eleanor", value:50},
+  {name: "Niamh", value:30},
+  {name: "Brian", value:25},
+]
 let charts = []
 
 

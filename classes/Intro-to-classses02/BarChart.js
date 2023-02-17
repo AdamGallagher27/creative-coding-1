@@ -1,7 +1,7 @@
 
 class BarChart {
     // constructs object
-    constructor(_height, _width, _posX, _posY, _data, xLable, Ylable) {
+    constructor(_height, _width, _posX, _posY, _data, xLable=false, Ylable=false) {
         this.height = _height
         this.width = _width
         this.posX = _posX
@@ -16,7 +16,8 @@ class BarChart {
         this.nTicks = 5
         this.blockWidth = (this.width - (this.marginL * 2) - ((this.nBlocks - 1))) / this.nBlocks
         this.mainGap = this.blockWidth + this.valGap
-        this.maxVal = Math.max(...this.data);
+        // this.maxVal = Math.max(...this.data.value);
+        this.maxVal = Math.max(...this.data.map(object => object.value))
     }
 
     // renders the chart
@@ -24,10 +25,8 @@ class BarChart {
         push()
         translate(this.posX, this.posY)
         this.drawBars()
-        
         this.drawAxis()
         this.drawAxis(false)
-        
         pop()
     }
 
@@ -48,7 +47,6 @@ class BarChart {
         if(lable) {
             let tGap = this.height / this.nTicks
             let numGap = this.maxVal / this.nTicks
-
 
             for(let i = 0; i <= this.nTicks; i++) {
                 noStroke()
@@ -77,13 +75,12 @@ class BarChart {
         let scaleData = this.scaleChart(this.data)
 
         noStroke()
-
         for (let i = 0; i < this.nBlocks; i++) {
             push();
             translate(this.marginL + (i * this.mainGap), 0)
             fill(scaleData[i], 0, 0)
             rect(0, 0, this.blockWidth, -scaleData[i]);
-            this.barTitle(scaleData[i], this.data[i])
+            this.barTitle(scaleData[i], this.data[i].value)
             pop();
         }
     }
@@ -94,7 +91,7 @@ class BarChart {
         let final = []
 
         for (let i = 0; i < arr.length; i++) {
-            final.push(arr[i] * scaleValue)
+            final.push(arr[i].value * scaleValue)
         }
 
         return final
