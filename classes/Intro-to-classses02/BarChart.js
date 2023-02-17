@@ -1,7 +1,7 @@
 
 class BarChart {
     // constructs object
-    constructor(_height, _width, _posX, _posY, _data, xLable=false, Ylable=false) {
+    constructor(_height, _width, _posX, _posY, _data, xLable='', Ylable='') {
         this.height = _height
         this.width = _width
         this.posX = _posX
@@ -12,6 +12,7 @@ class BarChart {
         this.nBlocks = this.data.length
         this.marginL = 20
         this.marginT = 10
+        this.marginB = 10
         this.tickWidth = 10
         this.nTicks = 5
         this.blockWidth = (this.width - (this.marginL * 2) - ((this.nBlocks - 1))) / this.nBlocks
@@ -20,6 +21,9 @@ class BarChart {
         this.maxVal = Math.max(...this.data.map(object => object.value))
     }
 
+
+
+
     // renders the chart
     render() {
         push()
@@ -27,8 +31,14 @@ class BarChart {
         this.drawBars()
         this.drawAxis()
         this.drawAxis(false)
+        this.axisTitles()
         pop()
     }
+
+    axisTitles() {
+        text(this.xLable, this.width / 2, 20)
+    }
+
 
     // draws the vertical axis
     drawAxis(vertical=true, lable=true) {
@@ -39,7 +49,7 @@ class BarChart {
             line(0, 0, 0, -this.height)    
         }
         else {
-            line(0, 0, this.width, 0)
+            line(0, 0, this.width + this.marginL, 0)
         }
 
 
@@ -61,11 +71,17 @@ class BarChart {
     }
 
 
-    barTitle(height, value) {
+    barTitle(height, value, title) {
         fill(0)
         const xAxis = (this.blockWidth / 2)
         textAlign(CENTER)
         text(value, xAxis, -height - this.marginT)
+        translate(xAxis, this.marginB)
+        push()
+        textAlign(RIGHT, TOP)
+        rotate(-50)
+        text(title, 0, 0)
+        pop()
     }
 
 
@@ -80,7 +96,7 @@ class BarChart {
             translate(this.marginL + (i * this.mainGap), 0)
             fill(scaleData[i], 0, 0)
             rect(0, 0, this.blockWidth, -scaleData[i]);
-            this.barTitle(scaleData[i], this.data[i].value)
+            this.barTitle(scaleData[i], this.data[i].value, this.data[i].name)
             pop();
         }
     }

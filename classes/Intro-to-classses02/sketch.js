@@ -4,6 +4,11 @@ let values = [
   {name: "Eleanor", value:50},
   {name: "Niamh", value:30},
   {name: "Brian", value:25},
+  {name: "Linda", value:40},
+  {name: "Ryan", value:46},
+  {name: "Barry", value:30},
+  {name: "Dave", value:25},
+  
 ]
 let charts = []
 
