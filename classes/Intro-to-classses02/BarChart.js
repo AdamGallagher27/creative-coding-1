@@ -9,6 +9,7 @@ class BarChart {
         this.data = _data
         this.xLable = _xLable
 
+        // globals
         this.valGap = 5
         this.nBlocks = this.data.length
         this.marginL = 20
@@ -37,12 +38,16 @@ class BarChart {
         pop()
     }
 
+    // draws the titles for each axis
     axisTitles() {
-        textSize(18);
+        textSize(18)
         textAlign(CENTER)
         noStroke()
+
+        // X axis lable
         text(this.xLable, this.width / 2, this.marginAxisT)
 
+        // Y axis lable
         rotate(-90)
         text(this.xLable, this.height / 2, -this.marginAxisL)
     }
@@ -53,9 +58,11 @@ class BarChart {
         noFill()
         stroke(50)
 
+        // if vertical is true draw the vertical line
         if(vertical) {
             line(0, 0, 0, -this.height)    
         }
+        // else draw horizontal line
         else {
             line(0, 0, this.width + this.marginL, 0)
         }
@@ -63,9 +70,14 @@ class BarChart {
 
         // if lable is true show the ticks / lables
         if(lable) {
+
+            // gaps between ticks
             let tGap = this.height / this.nTicks
+
+            // value to display beside each tick
             let numGap = this.maxVal / this.nTicks
 
+            // draw each tick
             for(let i = 0; i <= this.nTicks; i++) {
                 noStroke()
                 textAlign(RIGHT, CENTER)
@@ -96,9 +108,12 @@ class BarChart {
     // draws the bars on the chart
     drawBars() {
 
+        // data converted to an array of heights that are the right scale
         let scaleData = this.scaleChart(this.data)
 
         noStroke()
+
+        // draw each bar
         for (let i = 0; i < this.nBlocks; i++) {
             push();
             translate(this.marginL + (i * this.mainGap), 0)
