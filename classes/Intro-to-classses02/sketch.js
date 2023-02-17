@@ -1,5 +1,5 @@
 
-let fruits = [23, 56, 78, 90, 50, 20, 15, 20, 100, 20 ]
+let values = [23, 56, 78, 90, 50, 20, 15 ]
 let charts = []
 
 
@@ -15,7 +15,7 @@ function setup() {
   // charts.push(new BarChart(400, 400, 50, 450, fruits))
 
   // charts.push(new BarChart(200, 200, 50, 250, fruits))
-  charts.push(new BarChart(400, 200, 50, 450, fruits))
+  charts.push(new BarChart(400, 200, 50, 450, values))
 
 }
 
