@@ -89,7 +89,7 @@ class BarChart {
                 textAlign(RIGHT, CENTER)
                 fill(0)
                 text(i*numGap.toFixed(0), -this.tickWidth, i*-tGap)
-                stroke(0)
+                stroke(100)
                 line(0, i*-tGap, -6, -i*tGap)
             }
         }
