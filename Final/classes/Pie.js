@@ -8,11 +8,10 @@ class Pie {
         this.height = height
         this.xPos = xPos
         this.yPos = yPos
-        this.data = data
-        this.maxData = Math.max(...this.data.map(obj => obj.value))
-        this.textMargin = 165
+        this.data = data.sort((a, b) => a.percent - b.percent)
+        this.textMargin = 170
         this.rotations = []
-        this.cleanData = this.getPercent(this.data)
+        this.lableOffSet = -20
 
         // colors
         this.colorIndex = 0
@@ -20,39 +19,7 @@ class Pie {
         this.firstPass = true
     }
 
-    getPercent(data) {
-        // final to be returned at the end
-        let final = []
-
-        // varaible for the color scale 
-        const colorScale = this.scaleColor()
-
-
-        // sum of all the values in inital data
-        const sum = data.reduce((accumulator, object) => {
-            return accumulator + object.value;
-        }, 0);
-
-        console.log(sum)
-
-        data.forEach((element, index) => {
-
-            // should use class / contructor here
-            // restructuring intial data to be a percentage and have a color
-            let current = {
-                name: element.name,
-                percent: (element.value / sum) * 100,
-            }
-
-            console.log(current)
-            // add them to final
-            final.push(current)
-        }, 0);
-
-        // return the new data in a sorted array
-        return final.sort((a, b) => a.percent - b.percent)
-    }
-
+    
     // function that draws each segment of the chart
     render(data) {
 
@@ -61,7 +28,7 @@ class Pie {
         noStroke()
 
         // draw the first segment in the same place every time
-        const firstData = this.cleanData[0]
+        const firstData = this.data[0]
         this.drawSegment(firstData)
 
 
@@ -75,7 +42,7 @@ class Pie {
             })
 
             // draw the segment for the current
-            this.drawSegment(this.cleanData[i], prevRotations)
+            this.drawSegment(this.data[i], prevRotations)
             pop()
         }
 
@@ -113,7 +80,7 @@ class Pie {
         // rotate by upright to make text upright
         rotate(upRight)
         fill(0)
-        text(data.name + ` (${data.percent.toFixed(1)}%)`, 0, 0)
+        text(data.type + ` (${parseFloat(data.percent)}%)`, 0, -20, true)
         pop()
 
 
@@ -124,13 +91,6 @@ class Pie {
         return (360 - rotation) - (segment / 2)
     }
 
-
-    // function for scaling colour
-    scaleColor() {
-        const numColors = this.data.length
-        const range = 255
-        return range / numColors
-    }
 
     // color bars
     colorBar() {
@@ -152,5 +112,39 @@ class Pie {
         // return the colour at colour index
         return color(this.colors[this.colorIndex])
     }
+
+    // getPercent(data) {
+    //     // final to be returned at the end
+    //     let final = []
+
+    //     // varaible for the color scale 
+    //     const colorScale = this.scaleColor()
+
+
+    //     // sum of all the values in inital data
+    //     const sum = data.reduce((accumulator, object) => {
+    //         return accumulator + object.value;
+    //     }, 0);
+
+    //     console.log(sum)
+
+    //     data.forEach((element, index) => {
+
+    //         // should use class / contructor here
+    //         // restructuring intial data to be a percentage and have a color
+    //         let current = {
+    //             name: element.name,
+    //             percent: (element.value / sum) * 100,
+    //         }
+
+    //         console.log(current)
+    //         // add them to final
+    //         final.push(current)
+    //     }, 0);
+
+    //     // return the new data in a sorted array
+    //     return final.sort((a, b) => a.percent - b.percent)
+    // }
+
 
 }
