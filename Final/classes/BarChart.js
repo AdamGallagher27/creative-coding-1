@@ -23,6 +23,11 @@ class BarChart {
         this.blockWidth = (this.width - (this.marginL * 2) - ((this.nBlocks - 1))) / this.nBlocks
         this.mainGap = this.blockWidth + this.valGap
         this.maxVal = Math.max(...this.data.map(object => object.value))
+
+        // colors
+        this.colorIndex = 0
+        this.colors = ['#004c6d', '#4c7c9b', '#86b0cc', '#c1e7ff']
+        this.firstPass = true
     }
 
 
@@ -118,7 +123,7 @@ class BarChart {
         for (let i = 0; i < this.nBlocks; i++) {
             push();
             translate(this.marginL + (i * this.mainGap), 0)
-            fill(255, 191, 0)
+            fill(this.colorBar())
             rect(0, 0, this.blockWidth, -scaleData[i]);
             this.barTitle(scaleData[i], this.data[i].value, this.data[i].name)
             pop();
@@ -137,5 +142,25 @@ class BarChart {
         return final
     }
 
+    // color bars
+    colorBar() {
+
+        // if its the first pass display the first colour
+        if(this.colorIndex === 0 && this.firstPass) {
+            this.firstPass = false
+            return color(this.colors[this.colorIndex]) 
+        }
+
+        // increment color index
+        this.colorIndex += 1
+
+        // if index is greater than length reset
+        if(this.colorIndex === this.colors.length) {
+            this.colorIndex = 0
+        }
+
+        // return the colour at colour index
+        return color(this.colors[this.colorIndex])
+    }
     
 }
