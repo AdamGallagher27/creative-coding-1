@@ -2,17 +2,22 @@
 
 class Pie {
     constructor(width, height, xPos, yPos, data) {
+
+        // globals
         this.width = width
         this.height = height
         this.xPos = xPos
         this.yPos = yPos
         this.data = data
-
-
         this.maxData = Math.max(...this.data.map(obj => obj.value))
         this.textMargin = 165
         this.rotations = []
         this.cleanData = this.getPercent(this.data)
+
+        // colors
+        this.colorIndex = 0
+        this.colors = ['#004c6d', '#4c7c9b', '#86b0cc', '#c1e7ff']
+        this.firstPass = true
     }
 
     getPercent(data) {
@@ -37,7 +42,6 @@ class Pie {
             let current = {
                 name: element.name,
                 percent: (element.value / sum) * 100,
-                color: colorScale * (index + 1)
             }
 
             console.log(current)
@@ -90,7 +94,7 @@ class Pie {
 
         push()
         // asign colour and draw arc with first sec angle
-        fill(0, data.color, 200)
+        fill(this.colorBar())
 
         // if the previous rotation exists rotate the grid by that total
         if (prevRotat) {
@@ -108,6 +112,7 @@ class Pie {
 
         // rotate by upright to make text upright
         rotate(upRight)
+        fill(0)
         text(data.name + ` (${data.percent.toFixed(1)}%)`, 0, 0)
         pop()
 
@@ -127,5 +132,25 @@ class Pie {
         return range / numColors
     }
 
+    // color bars
+    colorBar() {
+
+        // if its the first pass display the first colour
+        if(this.colorIndex === 0 && this.firstPass) {
+            this.firstPass = false
+            return color(this.colors[this.colorIndex]) 
+        }
+
+        // increment color index
+        this.colorIndex += 1
+
+        // if index is greater than length reset
+        if(this.colorIndex === this.colors.length) {
+            this.colorIndex = 0
+        }
+
+        // return the colour at colour index
+        return color(this.colors[this.colorIndex])
+    }
 
 }
