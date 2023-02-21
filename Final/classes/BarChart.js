@@ -43,7 +43,6 @@ class BarChart {
         this.axisTitles()
         pop()
         
-        console.log(this.maxVal)
     }
 
     // draws the titles for each axis
@@ -90,7 +89,7 @@ class BarChart {
                 noStroke()
                 textAlign(RIGHT, CENTER)
                 fill(0)
-                text(i*numGap.toFixed(0), -this.tickWidth, i*-tGap)
+                text(i*numGap.toFixed(0) + "%", -this.tickWidth, i*-tGap)
                 stroke(100)
                 line(0, i*-tGap, -6, -i*tGap)
             }
@@ -103,7 +102,7 @@ class BarChart {
         fill(0)
         const xAxis = (this.blockWidth / 2)
         textAlign(CENTER)
-        text(value, xAxis, -height - this.marginT)
+        text(value + "%", xAxis, -height - this.marginT)
         translate(xAxis, this.marginB)
         push()
         textAlign(RIGHT, TOP)
