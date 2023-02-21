@@ -1,5 +1,5 @@
 
-let pieTable
+let table
 
 function preload() {
   // data
@@ -7,7 +7,7 @@ function preload() {
   
   // load data from csv and return it as array of objects
   let data = loadTable('data/household_consumption_of_digital_services.csv', 'csv', 'header', () => {
-  pieTable = Object.values(data.getObject())
+  table = Object.values(data.getObject())
   })
 }
 
@@ -34,12 +34,12 @@ const PiePosy = 250
 
 
 // bar chart global variables
-const barChartWidth = 400
+const barChartWidth = 300
 const barChartHeight = 200
 const barChartPosX = 90
 const barChartPosy = 450
-const barChartXLable = "Sales Workers"
-const barChartYLable = "Sales This Year"
+const barChartXLable = "Digital Services"
+const barChartYLable = "Spending in %"
 
 
 const screenWidth = 900
@@ -53,12 +53,19 @@ function setup() {
   rectMode(CORNER);
   noLoop();
   
+  textSize(30)
+  text("Household Consumption of Digital Services Europe", 0, 25)
 
-  const barChart = new BarChart(barChartWidth, barChartHeight, barChartPosX, barChartPosy, values, barChartXLable, barChartYLable )
+
+  textSize(12)
+  const barChart = new BarChart(barChartHeight, barChartWidth, barChartPosX, barChartPosy, table, barChartXLable, barChartYLable )
   barChart.render()
 
-  const pieChart = new Pie(pieWidth, pieHeight, PiePosX, PiePosy, pieTable)
+  const pieChart = new Pie(pieWidth, pieHeight, PiePosX, PiePosy, table)
   pieChart.render()
+
+  
+  
 }
 
 function draw() {
