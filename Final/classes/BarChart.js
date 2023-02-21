@@ -16,13 +16,13 @@ class BarChart {
         this.marginL = 20
         this.marginT = 10
         this.marginB = 10
-        this.marginAxisT = 70
+        this.marginAxisT = 150
         this.marginAxisL = 50
         this.tickWidth = 10
-        this.nTicks = 5
+        this.nTicks = 4
         this.blockWidth = (this.width - (this.marginL * 2) - ((this.nBlocks - 1))) / this.nBlocks
         this.mainGap = this.blockWidth + this.valGap
-        this.maxVal = Math.max(...this.data.map(object => object.value))
+        this.maxVal = 100
 
         // colors
         this.colorIndex = 0
@@ -42,6 +42,8 @@ class BarChart {
         this.drawAxis(false)
         this.axisTitles()
         pop()
+        
+        console.log(this.maxVal)
     }
 
     // draws the titles for each axis
@@ -125,7 +127,7 @@ class BarChart {
             translate(this.marginL + (i * this.mainGap), 0)
             fill(this.colorBar())
             rect(0, 0, this.blockWidth, -scaleData[i]);
-            this.barTitle(scaleData[i], this.data[i].value, this.data[i].name)
+            this.barTitle(scaleData[i], this.data[i].percent, this.data[i].type)
             pop();
         }
     }
@@ -136,7 +138,7 @@ class BarChart {
         let final = []
 
         for (let i = 0; i < arr.length; i++) {
-            final.push(arr[i].value * scaleValue)
+            final.push(arr[i].percent * scaleValue)
         }
 
         return final
