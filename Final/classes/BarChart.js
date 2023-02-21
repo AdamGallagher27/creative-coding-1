@@ -16,7 +16,7 @@ class BarChart {
         this.marginL = 20
         this.marginT = 10
         this.marginB = 10
-        this.marginAxisT = 150
+        this.marginAxisT = 120
         this.marginAxisL = 50
         this.tickWidth = 10
         this.nTicks = 4
