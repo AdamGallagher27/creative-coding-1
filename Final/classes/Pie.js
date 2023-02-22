@@ -23,6 +23,7 @@ class Pie {
     // function that draws each segment of the chart
     render(data) {
 
+        push()
         translate(this.xPos, this.yPos)
 
         noStroke()
@@ -46,7 +47,7 @@ class Pie {
             pop()
         }
 
-
+        pop()
     }
 
     drawSegment(data, prevRotat = 0) {
