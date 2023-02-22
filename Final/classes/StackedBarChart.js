@@ -11,7 +11,7 @@ class StackedBarChart {
         this.yLable = _yLable
 
         // globals
-        this.valGap = 5
+        this.valGap = 11
         this.nBlocks = this.data.length
         this.marginL = 20
         this.marginT = 10
@@ -107,19 +107,21 @@ class StackedBarChart {
         noStroke()
 
         // draw each bar
-        for (let i = 0; i < this.nBlocks; i++) {
+        for (let i = this.data.length -1; i > -1; i--) {
 
             push();
             translate(this.marginL + (i * this.mainGap), 0)
             
             const current = this.data[i]
-
+            // console.log(current)
+            
             Object.keys(current).forEach((key, index )=> {
-                console.log(key)
-                if(index != 0) {
-                    console.log(int(current[key]) * scaleValue)
-                    fill(index * 10)
-                    rect(index * 2, 0, this.blockWidth, -int(current[key]) * scaleValue)
+                
+                if( key !== 'total') {
+                    const col = color(this.colorBar())
+                    fill(col)
+                    rect(0, 0, this.blockWidth, -int(current[key]) * scaleValue)
+                    translate(0, -int(current[key]) * scaleValue)
                 }
             })
 
