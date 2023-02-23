@@ -78,7 +78,7 @@ function setup() {
   const pieChart = new Pie(pieWidth, pieHeight, PiePosX, PiePosy, table)
   pieChart.render()
 
-  const stackedBarChart = new StackedBarChart(200, 300, -100, 450, sales)
+  const stackedBarChart = new StackedBarChart(200, 300, 70, 800, sales)
   stackedBarChart.render()
 
   
