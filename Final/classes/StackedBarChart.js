@@ -25,9 +25,13 @@ class StackedBarChart {
         this.blockWidth = (this.width - (this.marginL * 2) - ((this.nBlocks - 1))) / this.nBlocks
         this.mainGap = this.blockWidth + this.valGap
         this.maxVal = Math.max(...this.data.map(o => int(o.total)))
+        this.scaleValue = this.height / this.maxVal;
 
         // legend data
         this.legendData = {}
+
+        // median array
+        this.scaleMedian = []
 
         // colors
         this.colors = ['#004c6d', '#4c7c9b', '#86b0cc', '#c1e7ff']
@@ -53,7 +57,7 @@ class StackedBarChart {
         let final = []
 
         for (let i = 0; i < arr.length; i++) {
-            final.push(arr[i].total * scaleValue)
+            final.push(arr[i].total * this.scaleValue)
         }
 
         return final
@@ -102,10 +106,6 @@ class StackedBarChart {
 
     // draws the bars on the chart
     drawBars() {
-
-        // data converted to an array of heights that are the right scale
-        let scaleValue = this.height / this.maxVal;
-
         noStroke()
 
         // draw each bar
@@ -115,38 +115,31 @@ class StackedBarChart {
             push();
             translate(this.marginL + (i * this.mainGap), 0)
 
-            const current = this.data[i]
+            // this gets the current object and removes age_group && total
+            const current = (({ lung, heart, liver }) => ({ lung, heart, liver }))(this.data[i]);
             let colorIndex = 0
-            
+
             // loop over keys in current object 
-            for(const value in current) {
-                // for some reason || wont work
-                // double if is bad but works for now
-                // if value is not sales men or total draw bar and add colour value to obj
-                if (value !== 'total') {
-                    if (value !== 'age_group') {
+            for (const value in current) {
 
-                        // create current colour and make it the fill
-                        const col = this.colors[colorIndex]
-                        fill(col)
+                // create current colour and make it the fill
+                const col = this.colors[colorIndex]
+                fill(col)
 
-                        // the block height is the value in current object
-                        const blockHeight = -int(current[value]) * scaleValue
+                // the block height is the value in current object
+                const blockHeight = -int(current[value]) * this.scaleValue
 
-                        // draw a bar with blockwidth and the blockheight
-                        // translate up blockheight
-                        rect(0, 0, this.blockWidth, blockHeight )
-                        translate(0, blockHeight)
+                // draw a bar with blockwidth and the blockheight
+                // translate up blockheight
+                rect(0, 0, this.blockWidth, blockHeight)
+                translate(0, blockHeight)
 
-                        colorIndex += 1
+                // add current value / current color to legend data
+                this.legendData[value] = col
 
-                        // add current value / current color to legend data
-                        this.legendData[value] = col
-                    }
-
-                }
+                colorIndex += 1
             }
-               
+
             pop();
 
         }
@@ -160,13 +153,14 @@ class StackedBarChart {
 
         // used to hold the texts y value
         let textPos = 0
-        
+
         // varaibles for positioning / spacing
         const textMargin = 40
         const circleMargin = 30
         const circleSize = 8
         const lineSpacing = 15
 
+        // draw legend 
         for (const property in obj) {
             fill(0)
             text(property, this.width + textMargin, -this.height - textPos)
@@ -219,8 +213,6 @@ class StackedBarChart {
         rotate(rotation)
         text(this.yLable, this.height / 2, -this.marginAxisL)
     }
-
-
 
 
 }
