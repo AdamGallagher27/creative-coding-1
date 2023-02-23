@@ -24,6 +24,8 @@ class StackedBarChart {
         this.mainGap = this.blockWidth + this.valGap
         this.maxVal = Math.max(...this.data.map(o => int(o.total)))
 
+        // legend data
+        this.legendData = {}
 
 
         // colors
@@ -34,14 +36,14 @@ class StackedBarChart {
 
 
     render() {
-        console.log(this.maxVal)
-        console.log(this.data)
+        console.log(this.legendData)
         push()
         translate(this.posX, this.posY)
         this.scaleChart(this.data)
         this.drawAxis()
         this.drawAxis(false)
         this.drawBars()
+        this.drawLegend(this.legendData)
         pop()
     }
 
@@ -107,21 +109,29 @@ class StackedBarChart {
         noStroke()
 
         // draw each bar
-        for (let i = this.data.length -1; i > -1; i--) {
+        for (let i = this.data.length - 1; i > -1; i--) {
 
             push();
             translate(this.marginL + (i * this.mainGap), 0)
-            
+
             const current = this.data[i]
-            // console.log(current)
-            
-            Object.keys(current).forEach((key, index )=> {
-                
-                if( key !== 'total') {
-                    const col = color(this.colorBar())
-                    fill(col)
-                    rect(0, 0, this.blockWidth, -int(current[key]) * scaleValue)
-                    translate(0, -int(current[key]) * scaleValue)
+            let colorIndex = 0
+
+            // make this a for in later
+            Object.keys(current).forEach((key) => {
+
+                // for some reason || wont work
+                // double if is bad but works for now
+                if (key !== 'total' ) {
+                    if (key !== 'salesmen') {
+                        const col = this.colors[colorIndex]
+                        fill(col)
+                        rect(0, 0, this.blockWidth, -int(current[key]) * scaleValue)
+                        translate(0, -int(current[key]) * scaleValue)
+                        colorIndex += 1
+                        this.legendData[key] = col
+                    }
+
                 }
             })
 
@@ -133,26 +143,26 @@ class StackedBarChart {
         }
     }
 
+    drawLegend(obj) {
+        textAlign(LEFT)
 
-    // color bars
-    colorBar() {
+        let textPos = 0
 
-        // if its the first pass display the first colour
-        if (this.colorIndex === 0 && this.firstPass) {
-            this.firstPass = false
-            return color(this.colors[this.colorIndex])
+        for(const property in obj) {
+            // console.log(obj[property])#
+            fill(0)
+            text(property, this.width + 40, -this.height - textPos)
+            fill(obj[property])
+            ellipse(this.width + 30, -this.height - textPos, 8, 8)
+
+
+            textPos -= 15
+
+            
         }
-
-        // increment color index
-        this.colorIndex += 1
-
-        // if index is greater than length reset
-        if (this.colorIndex === this.colors.length) {
-            this.colorIndex = 0
-        }
-
-        // return the colour at colour index
-        return color(this.colors[this.colorIndex])
+        
     }
+
+    
 
 }
