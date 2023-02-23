@@ -1,5 +1,5 @@
-age_group,Lung,Heart,Liver
-25 - 34 years,1,2,3
-35 - 44 years,1,0,2
-45 - 54 years,3,1,5
-55 - 64 years,7,3,11
+age_group,lung,heart,liver,total,median
+25 - 34,1,2,3,6,2
+35 - 44,1,0,2,3,1
+45 - 54,3,1,5,9,3
+55 - 64,7,3,11,21,7
