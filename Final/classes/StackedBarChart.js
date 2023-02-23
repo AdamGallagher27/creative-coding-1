@@ -16,7 +16,7 @@ class StackedBarChart {
         this.marginL = 20
         this.marginT = 10
         this.marginB = 10
-        this.marginAxisT = 120
+        this.marginAxisT = 65
         this.marginAxisL = 50
         this.tickWidth = 10
         this.nTicks = 4
@@ -29,14 +29,11 @@ class StackedBarChart {
 
 
         // colors
-        this.colorIndex = 0
         this.colors = ['#004c6d', '#4c7c9b', '#86b0cc', '#c1e7ff']
-        this.firstPass = true
     }
 
-
+    // renders stacked bar chart to screen
     render() {
-        console.log(this.legendData)
         push()
         translate(this.posX, this.posY)
         this.scaleChart(this.data)
@@ -44,6 +41,8 @@ class StackedBarChart {
         this.drawAxis(false)
         this.drawBars()
         this.drawLegend(this.legendData)
+        this.barTitle(this.data)
+        this.axisTitles()
         pop()
     }
 
@@ -103,9 +102,6 @@ class StackedBarChart {
         // data converted to an array of heights that are the right scale
         let scaleValue = this.height / this.maxVal;
 
-        // console.log(scaleData)
-        // console.log("--------------------------")
-
         noStroke()
 
         // draw each bar
@@ -116,53 +112,88 @@ class StackedBarChart {
 
             const current = this.data[i]
             let colorIndex = 0
-
-            // make this a for in later
-            Object.keys(current).forEach((key) => {
-
+            
+            // loop over keys in current object 
+            for(const key in current) {
                 // for some reason || wont work
                 // double if is bad but works for now
-                if (key !== 'total' ) {
+                // if key is not sales men or total draw bar and add colour value to obj
+                if (key !== 'total') {
                     if (key !== 'salesmen') {
+
                         const col = this.colors[colorIndex]
                         fill(col)
                         rect(0, 0, this.blockWidth, -int(current[key]) * scaleValue)
                         translate(0, -int(current[key]) * scaleValue)
                         colorIndex += 1
+
+                        // add current key / current color to legend data
                         this.legendData[key] = col
                     }
 
                 }
-            })
-
-
-            // rect(0, 0, this.blockWidth, -scaleData[i]);
-            // this.barTitle(scaleData[i], this.data[i].percent, this.data[i].type)
+            }
+               
             pop();
 
         }
+
+
     }
 
+    // draws legend for chart
     drawLegend(obj) {
         textAlign(LEFT)
 
+        // used to hold the texts y value
         let textPos = 0
 
-        for(const property in obj) {
-            // console.log(obj[property])#
+
+        for (const property in obj) {
             fill(0)
             text(property, this.width + 40, -this.height - textPos)
             fill(obj[property])
             ellipse(this.width + 30, -this.height - textPos, 8, 8)
 
-
+            // move the text down a line
             textPos -= 15
-
-            
         }
-        
+
     }
 
-    
+    // gives titles for everybar
+    barTitle(data) {
+        fill(0)
+        textAlign(RIGHT, CENTER)
+
+        // for every title draw the title 
+        // half way through every block
+        for (let i = 0; i < this.nBlocks; i++) {
+
+            const currentGap = i * this.mainGap
+            push()
+            translate((currentGap + this.marginL) + (this.blockWidth / 2), 10)
+            rotate(-50)
+            text(data[i].salesmen, 0, 0)
+            pop()
+        }
+    }
+
+    // draws the titles for each axis
+    axisTitles() {
+        textSize(18)
+        textAlign(CENTER)
+        noStroke()
+
+        // X axis lable
+        text(this.xLable, this.width / 2, this.marginAxisT)
+
+        // Y axis lable
+        rotate(-90)
+        text(this.yLable, this.height / 2, -this.marginAxisL)
+    }
+
+
+
 
 }
