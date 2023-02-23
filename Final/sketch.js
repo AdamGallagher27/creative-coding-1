@@ -1,22 +1,33 @@
 
 // instanciate variables for csv data
-let table
+let digital
 let sales
+let transplants
 
 function preload() {
-  // data
+  // digital consumption data
   // https://data.gov.ie/dataset/oss01-household-consumption-of-digital-services/resource/03a2c013-2a9c-400f-a7ea-de045873e81f/view/e2fa8642-fc65-472f-af8d-299368769582#&r=C03856V04606&c=TLIST(A1)
-  
+
+  // transplant data
+  // https://data.cso.ie/table/DHA64
+
   // load data from csv and return it as array of objects
   let data = loadTable('data/household_consumption_of_digital_services.csv', 'csv', 'header', () => {
-  table = Object.values(data.getObject())
+    digital = Object.values(data.getObject())
+  })
+  
+  // load transplant data from csv and return as array of objects
+  let tranStats = loadTable('data/transplant-data.csv', 'csv', 'header', () => {
+    transplants = Object.values(tranStats.getObject())
+    console.log(transplants)
   })
 
+
   // load fake data from csv and return as array of objects
-  let salesStats = loadTable('data/testdata.csv', 'csv', 'header', () => {
-    sales = Object.values(salesStats.getObject())
-    console.log(sales)
-    })
+  // let salesStats = loadTable('data/testdata.csv', 'csv', 'header', () => {
+  //   sales = Object.values(salesStats.getObject())
+  //   })
+
 }
 
 
@@ -47,14 +58,14 @@ const barChartYLable = "Spending in %"
 const stackedWidth = 200
 const stackedHeight = 300
 const stackedPosX = 70
-const stackedPosY = 800
-const stackedXLable = 'salesmen'
-const stackedYLable = 'sales this year'
+const stackedPosY = 900
+const stackedXLable = 'age range'
+const stackedYLable = 'number transplants'
 
 
 // screen dimensions
 const screenWidth = 900
-const screenHeight = 900
+const screenHeight = 1200
 
 
 function setup() {
@@ -67,20 +78,22 @@ function setup() {
   // load title size
   textSize(globalTitleSize)
   text("Household Consumption of Digital Services Europe", 0, 25)
+  text("Organ TransPlants By Age", 0, 600)
+
 
   // load normal size
   textSize(globalTextSize)
 
   // bar chart
-  const barChart = new BarChart(barChartHeight, barChartWidth, barChartPosX, barChartPosy, table, barChartXLable, barChartYLable )
+  const barChart = new BarChart(barChartHeight, barChartWidth, barChartPosX, barChartPosy, digital, barChartXLable, barChartYLable )
   barChart.render()
 
   // pie chart
-  const pieChart = new Pie(pieWidth, pieHeight, PiePosX, PiePosy, table)
+  const pieChart = new Pie(pieWidth, pieHeight, PiePosX, PiePosy, digital)
   pieChart.render()
 
   // stacked bar chart
-  const stackedBarChart = new StackedBarChart(stackedWidth, stackedHeight, stackedPosX, stackedPosY, sales, stackedXLable, stackedYLable)
+  const stackedBarChart = new StackedBarChart(stackedWidth, stackedHeight, stackedPosX, stackedPosY, transplants, stackedXLable, stackedYLable)
   stackedBarChart.render()
 
   
