@@ -1,6 +1,6 @@
 
+// instanciate variables for csv data
 let table
-
 let sales
 
 function preload() {
@@ -12,6 +12,7 @@ function preload() {
   table = Object.values(data.getObject())
   })
 
+  // load fake data from csv and return as array of objects
   let salesStats = loadTable('data/testdata.csv', 'csv', 'header', () => {
     sales = Object.values(salesStats.getObject())
     console.log(sales)
@@ -19,19 +20,7 @@ function preload() {
 }
 
 
-// const values = [
-//   {name: "Adam", value:20},
-//   {name: "Eleanor", value:50},
-//   {name: "Niamh", value:30},
-//   {name: "Brian", value:25},
-//   {name: "Linda", value:40},
-//   {name: "Ryan", value:46},
-//   {name: "Barry", value:30},
-//   {name: "Dave", value:25},
-  
-// ]
-
-
+// global text variables
 const globalTextSize = 12
 const globalTitleSize = 30
 
@@ -54,6 +43,16 @@ const barChartXLable = "Digital Services"
 const barChartYLable = "Spending in %"
 
 
+// stacked bar chart
+const stackedWidth = 200
+const stackedHeight = 300
+const stackedPosX = 70
+const stackedPosY = 800
+const stackedXLable = 'salesmen'
+const stackedYLable = 'sales this year'
+
+
+// screen dimensions
 const screenWidth = 900
 const screenHeight = 900
 
@@ -65,20 +64,23 @@ function setup() {
   rectMode(CORNER);
   noLoop();
   
+  // load title size
   textSize(globalTitleSize)
   text("Household Consumption of Digital Services Europe", 0, 25)
 
-
+  // load normal size
   textSize(globalTextSize)
 
-
+  // bar chart
   const barChart = new BarChart(barChartHeight, barChartWidth, barChartPosX, barChartPosy, table, barChartXLable, barChartYLable )
   barChart.render()
 
+  // pie chart
   const pieChart = new Pie(pieWidth, pieHeight, PiePosX, PiePosy, table)
   pieChart.render()
 
-  const stackedBarChart = new StackedBarChart(200, 300, 70, 800, sales)
+  // stacked bar chart
+  const stackedBarChart = new StackedBarChart(stackedWidth, stackedHeight, stackedPosX, stackedPosY, sales, stackedXLable, stackedYLable)
   stackedBarChart.render()
 
   
