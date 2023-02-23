@@ -48,6 +48,7 @@ class StackedBarChart {
         this.drawLegend(this.legendData)
         this.barTitle(this.data)
         this.axisTitles()
+        this.drawMedianLine()
         pop()
     }
 
@@ -185,7 +186,6 @@ class StackedBarChart {
         // for every title draw the title 
         // half way through every block
         for (let i = 0; i < this.nBlocks; i++) {
-
             const currentGap = i * this.mainGap
             push()
             translate((currentGap + this.marginL) + (this.blockWidth / 2), titleMargin)
@@ -197,7 +197,7 @@ class StackedBarChart {
 
     // draws the titles for each axis
     axisTitles() {
-
+        push()
         // size / rotation
         const size = 18
         const rotation = -90
@@ -212,7 +212,31 @@ class StackedBarChart {
         // Y axis lable
         rotate(rotation)
         text(this.yLable, this.height / 2, -this.marginAxisL)
+        pop()
     }
 
+    // gets the positions of the medians
+    medianPosition(data) {
+        let final = []
 
+        // loop through data and add median to final multiplied by scalevalue
+        data.forEach(object => {
+            final.push(object.median * this.scaleValue)
+        });
+
+        return final
+    }
+
+    drawMedianLine() {
+        const medPosX = this.medianPosition(this.data)
+        
+        for (let i = 0; i < this.nBlocks; i++) {
+            const currentGap = i * this.mainGap
+            push()
+            translate((currentGap + this.marginL) + (this.blockWidth / 2), -medPosX[i])
+            fill(255, 0, 0)
+            ellipse(0, 0, 10)
+            pop()
+        }
+    }
 }
