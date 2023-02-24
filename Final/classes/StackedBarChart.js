@@ -48,13 +48,13 @@ class StackedBarChart {
         this.drawLegend(this.legendData)
         this.barTitle(this.data)
         this.axisTitles()
-        this.drawMedianLine()
+        const medianPosition = this.getMedianPositions()
+        this.drawMedianLines( medianPosition )
         pop()
     }
 
     // scales data array
     scaleChart(arr) {
-        let scaleValue = this.height / this.maxVal;
         let final = []
 
         for (let i = 0; i < arr.length; i++) {
@@ -213,30 +213,47 @@ class StackedBarChart {
         rotate(rotation)
         text(this.yLable, this.height / 2, -this.marginAxisL)
         pop()
+
     }
 
-    // gets the positions of the medians
-    medianPosition(data) {
-        let final = []
 
-        // loop through data and add median to final multiplied by scalevalue
-        data.forEach(object => {
-            final.push(object.median * this.scaleValue)
-        });
+    getMedianPositions() {
+
+        let final = []
+        let posX = []
+
+        // add scale value for median X 
+        this.data.forEach(object => {
+            posX.push(object.median * this.scaleValue)
+        });  
+        
+
+        // add X and Y position to final
+        for (let i = 0; i < this.nBlocks; i++) {
+            const currentGap = i * this.mainGap
+            push()
+            translate((currentGap + this.marginL) + (this.blockWidth / 2), -posX[i])
+            final.push([(currentGap + this.marginL) + (this.blockWidth / 2), -posX[i]])
+            fill(255, 213, 128)
+            ellipse(0, 0, 10)
+            pop()
+        }
 
         return final
     }
 
-    drawMedianLine() {
-        const medPosX = this.medianPosition(this.data)
-        
-        for (let i = 0; i < this.nBlocks; i++) {
-            const currentGap = i * this.mainGap
-            push()
-            translate((currentGap + this.marginL) + (this.blockWidth / 2), -medPosX[i])
-            fill(255, 0, 0)
-            ellipse(0, 0, 10)
-            pop()
+
+    drawMedianLines(positions) {
+
+        stroke(255, 213, 128)
+        strokeWeight(4)
+
+
+        for(let i = 0; i < positions.length - 1; i++) {
+            console.log(...positions[i])
+            line(...positions[i], ...positions[i + 1])
         }
+
+
     }
 }
