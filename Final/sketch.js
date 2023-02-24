@@ -63,6 +63,16 @@ const stackedXLable = 'age range'
 const stackedYLable = 'number transplants'
 
 
+
+// bar chart global variables
+const horBarChartWidth = 300
+const horBarChartHeight = 300
+const horBarChartPosX = 500
+const horBarChartPosy = 900
+const horBarChartXLable = "Spending in %"
+const horBarChartYLable = "Digital Services"
+
+
 // screen dimensions
 const screenWidth = 900
 const screenHeight = 1200
@@ -94,9 +104,11 @@ function setup() {
 
   // stacked bar chart
   const stackedBarChart = new StackedBarChart(stackedWidth, stackedHeight, stackedPosX, stackedPosY, transplants, stackedXLable, stackedYLable)
-  stackedBarChart.render()
+  // stackedBarChart.render()
 
-  
+    // horizotal bar chart
+    const horBarChart = new HorBarChart(horBarChartHeight, horBarChartWidth, horBarChartPosX, horBarChartPosy, digital, horBarChartXLable, horBarChartYLable )
+    horBarChart.render()
   
 }
 
