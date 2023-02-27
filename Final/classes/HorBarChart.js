@@ -2,7 +2,7 @@
 
 class HorBarChart {
     // constructs object
-    constructor(_height, _width, _posX, _posY, _data, _xLable='', _yLable='') {
+    constructor(_height, _width, _posX, _posY, _data, _xLable = '', _yLable = '') {
         this.height = _height
         this.width = _width
         this.posX = _posX
@@ -12,7 +12,6 @@ class HorBarChart {
         this.yLable = _yLable
 
         // globals
-        this.valGap = 5
         this.nBlocks = this.data.length
         this.marginL = 20
         this.marginT = 10
@@ -23,10 +22,9 @@ class HorBarChart {
         this.nTicks = this.data.length
         this.nBottomTitles = 4
 
-        this.blockWidth = (this.width - (this.marginL * 2) - ((this.nBlocks - 1))) / this.nBlocks
-        this.mainGap = this.blockWidth + this.valGap
+        this.blockWidth = (this.height - (this.marginL * 2) - ((this.nBlocks - 1))) / this.nBlocks
         this.maxVal = Math.max(...this.data.map(obj => obj.percent))
-        
+
         this.scaleData = this.height / this.maxVal;
 
         // colors
@@ -38,22 +36,23 @@ class HorBarChart {
 
     render() {
         push()
-            console.log(this.data)
-            translate(this.posX, this.posY)
-            this.drawAxis()
-            this.drawAxis(false)
-            this.valueTitles()
+        console.log(this.data)
+        translate(this.posX, this.posY)
+        this.drawAxis()
+        this.drawAxis(false)
+        this.drawBars(this.data)
+        this.valueTitles()
         pop()
     }
 
     // draws the vertical axis
-    drawAxis(vertical=true, lable=true) {
+    drawAxis(vertical = true, lable = true) {
         noFill()
         stroke(50)
 
         // if vertical is true draw the vertical line
-        if(vertical) {
-            line(0, 0, 0, -this.height)    
+        if (vertical) {
+            line(0, 0, 0, -this.height)
         }
         // else draw horizontal line
         else {
@@ -62,22 +61,22 @@ class HorBarChart {
 
 
         // if lable is true show the ticks / lables
-        if(lable) {
+        if (lable) {
 
             push()
             // gaps between ticks
             let tGap = this.height / this.nTicks
-            
+
             translate(0, -tGap / 2)
 
             // draw each tick
-            for(let i = 0; i < this.nTicks; i++) {
+            for (let i = 0; i < this.nTicks; i++) {
                 noStroke()
                 textAlign(RIGHT, CENTER)
                 fill(0)
-                text(this.data[i].type, -this.tickWidth, i*-tGap)
+                text(this.data[i].type, -this.tickWidth, i * -tGap)
                 stroke(100)
-                line(0, i*-tGap, -6, -i*tGap)
+                line(0, i * -tGap, -6, -i * tGap)
             }
 
             pop()
@@ -88,15 +87,70 @@ class HorBarChart {
 
     valueTitles() {
         noStroke()
-        const gap  = this.width / this.nBottomTitles
+        const gap = this.width / this.nBottomTitles
         const textMargin = 16
 
-        for(let i = 0; i < this.nBottomTitles + 1; i++) {
+        for (let i = 0; i < this.nBottomTitles + 1; i++) {
 
             const numGap = this.maxVal / this.nTicks
             fill(0)
             text(numGap.toFixed(0) * i, gap * i, textMargin)
         }
     }
-    
+
+    // draws the bars on the chart
+    drawBars() {
+
+        // data converted to an array of heights that are the right scale
+        let scaleData = this.scaleChart(this.data)
+
+        noStroke()
+        let tGap = this.height / this.nTicks
+
+
+        // draw each bar
+        for (let i = 0; i < this.nBlocks; i++) {
+            push();
+            rotate(-90)
+            translate((i * tGap), 0)
+            fill(this.colorBar())
+            rect(0, 0, this.blockWidth, scaleData[i]);
+            // scaleData[i], this.data[i].percent, this.data[i].type
+            pop();
+        }
+    }
+
+    // scales data array
+    scaleChart(arr) {
+        let scaleValue = this.height / this.maxVal;
+        let final = []
+
+        for (let i = 0; i < arr.length; i++) {
+            final.push(arr[i].percent * scaleValue)
+        }
+
+        return final
+    }
+
+    // color bars
+    colorBar() {
+
+        // if its the first pass display the first colour
+        if (this.colorIndex === 0 && this.firstPass) {
+            this.firstPass = false
+            return color(this.colors[this.colorIndex])
+        }
+
+        // increment color index
+        this.colorIndex += 1
+
+        // if index is greater than length reset
+        if (this.colorIndex === this.colors.length) {
+            this.colorIndex = 0
+        }
+
+        // return the colour at colour index
+        return color(this.colors[this.colorIndex])
+    }
+
 }
