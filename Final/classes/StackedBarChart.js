@@ -28,7 +28,9 @@ class StackedBarChart {
         this.scaleValue = this.height / this.maxVal;
 
         // legend data
-        this.legendData = {}
+        this.medianYellow = "#FFD580"
+        this.medianLine = {median: this.medianYellow}
+        this.legendData = {...this.medianLine}
 
         // median array
         this.scaleMedian = []
@@ -140,6 +142,7 @@ class StackedBarChart {
 
                 colorIndex += 1
             }
+            console.log(this.legendData)
 
             pop();
 
@@ -245,7 +248,7 @@ class StackedBarChart {
 
     drawMedianLines(positions) {
 
-        stroke(255, 213, 128)
+        stroke(this.medianYellow)
         strokeWeight(4)
 
 
