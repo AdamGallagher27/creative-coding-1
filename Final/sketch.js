@@ -110,8 +110,8 @@ const horBarChartWidth = 300
 const horBarChartHeight = 300
 const horBarChartPosX = 550
 const horBarChartPosy = 900
-const horBarChartXLable = "Spending in %"
-const horBarChartYLable = "Digital Services"
+const horBarChartXLable = "num kidney transplants"
+const horBarChartYLable = "years"
 
 
 // screen dimensions
@@ -148,7 +148,7 @@ function setup() {
   stackedBarChart.render()
 
   // horizotal bar chart
-  const horBarChart = new HorBarChart(horBarChartHeight, horBarChartWidth, horBarChartPosX, horBarChartPosy, digital, horBarChartXLable, horBarChartYLable)
+  const horBarChart = new HorBarChart(horBarChartHeight, horBarChartWidth, horBarChartPosX, horBarChartPosy, horData, horBarChartXLable, horBarChartYLable)
   horBarChart.render()
 
 }
