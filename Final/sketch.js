@@ -37,11 +37,11 @@ const globalTitleSize = 30
 
 
 
-// pie chart global variables
-const pieWidth = 250
-const pieHeight = 250
-const PiePosX = 600
-const PiePosy = 250
+// donut chart global variables
+const doWidth = 250
+const doHeight = 250
+const doPosX = 600
+const doPosy = 250
 
 
 
@@ -98,9 +98,9 @@ function setup() {
   const barChart = new BarChart(barChartHeight, barChartWidth, barChartPosX, barChartPosy, digital, barChartXLable, barChartYLable )
   barChart.render()
 
-  // pie chart
-  const pieChart = new Pie(pieWidth, pieHeight, PiePosX, PiePosy, digital)
-  pieChart.render()
+  // donut chart
+  const donutChart = new Donut(doWidth, doHeight, doPosX, doPosy, digital)
+  donutChart.render()
 
   // stacked bar chart
   const stackedBarChart = new StackedBarChart(stackedWidth, stackedHeight, stackedPosX, stackedPosY, transplants, stackedXLable, stackedYLable)

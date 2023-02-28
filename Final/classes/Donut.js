@@ -1,6 +1,6 @@
 
 
-class Pie {
+class Donut {
     constructor(width, height, xPos, yPos, data) {
 
         // globals
@@ -21,22 +21,23 @@ class Pie {
 
     
     // function that draws each segment of the chart
-    render(data) {
+    render() {
 
         push()
         translate(this.xPos, this.yPos)
 
+        
         noStroke()
-
+        
         // draw the first segment in the same place every time
         const firstData = this.data[0]
         this.drawSegment(firstData)
-
-
+        
+        
         // loop through the rest of the data
         for (let i = 1; i < this.data.length; i++) {
             push()
-
+            
             // the sum of all previous rotations
             const prevRotations = this.rotations.reduce((accumulator, object) => {
                 return accumulator + object;
@@ -46,7 +47,10 @@ class Pie {
             this.drawSegment(this.data[i], prevRotations)
             pop()
         }
+        
 
+        // for center of donut
+        ellipse(0, 0, this.width / 2)
         pop()
     }
 
