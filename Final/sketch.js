@@ -106,9 +106,9 @@ function setup() {
   const stackedBarChart = new StackedBarChart(stackedWidth, stackedHeight, stackedPosX, stackedPosY, transplants, stackedXLable, stackedYLable)
   // stackedBarChart.render()
 
-    // horizotal bar chart
-    const horBarChart = new HorBarChart(horBarChartHeight, horBarChartWidth, horBarChartPosX, horBarChartPosy, digital, horBarChartXLable, horBarChartYLable )
-    horBarChart.render()
+  // horizotal bar chart
+  const horBarChart = new HorBarChart(horBarChartHeight, horBarChartWidth, horBarChartPosX, horBarChartPosy, digital, horBarChartXLable, horBarChartYLable )
+  horBarChart.render()
   
 }
 
