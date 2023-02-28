@@ -250,7 +250,7 @@ class StackedBarChart {
 
 
         for(let i = 0; i < positions.length - 1; i++) {
-            console.log(...positions[i])
+            // console.log(...positions[i])
             line(...positions[i], ...positions[i + 1])
         }
 
