@@ -16,14 +16,14 @@ class HorBarChart {
         this.marginL = 20
         this.marginT = 10
         this.marginB = 10
-        this.marginAxisT = 120
-        this.marginAxisL = 50
+        this.marginAxisT = 60
+        this.marginAxisL = 60
         this.tickWidth = 10
         this.nTicks = this.data.length
         this.nBottomTitles = 4
 
         this.blockWidth = (this.height - (this.marginL * 2) - ((this.nBlocks - 1))) / this.nBlocks
-        this.maxVal = Math.max(...this.data.map(obj => obj.percent))
+        this.maxVal = Math.max(...this.data.map(obj => obj.value))
 
         this.scaleData = this.height / this.maxVal;
 
@@ -42,6 +42,7 @@ class HorBarChart {
         this.drawAxis(false)
         this.drawBars(this.data)
         this.valueTitles()
+        this.axisTitles()
         pop()
     }
 
@@ -74,7 +75,7 @@ class HorBarChart {
                 noStroke()
                 textAlign(RIGHT, CENTER)
                 fill(0)
-                text(this.data[i].type, -this.tickWidth, i * -tGap)
+                text(this.data[i].year, -this.tickWidth, i * -tGap)
                 stroke(100)
                 line(0, i * -tGap, -6, -i * tGap)
             }
@@ -115,7 +116,6 @@ class HorBarChart {
             translate((i * tGap), 0)
             fill(this.colorBar())
             rect(0, 0, this.blockWidth, scaleData[i]);
-            // scaleData[i], this.data[i].percent, this.data[i].type
             pop();
         }
     }
@@ -126,10 +126,25 @@ class HorBarChart {
         let final = []
 
         for (let i = 0; i < arr.length; i++) {
-            final.push(arr[i].percent * scaleValue)
+            final.push(arr[i].value * scaleValue)
         }
 
         return final
+    }
+
+
+    // draws the titles for each axis
+    axisTitles() {
+        textSize(18)
+        textAlign(CENTER)
+        noStroke()
+
+        // X axis lable
+        text(this.xLable, this.width / 2, this.marginAxisT)
+
+        // Y axis lable
+        rotate(-90)
+        text(this.yLable, this.height / 2, -this.marginAxisL)
     }
 
     // color bars
