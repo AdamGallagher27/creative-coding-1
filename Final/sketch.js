@@ -140,7 +140,7 @@ function setup() {
   barChart.render()
 
   // donut chart
-  const donutChart = new Donut(doWidth, doHeight, doPosX, doPosy, digital)
+  const donutChart = new Donut(doWidth, doHeight, doPosX, doPosy, donutData)
   donutChart.render()
 
   // stacked bar chart
