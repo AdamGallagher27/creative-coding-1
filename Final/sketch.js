@@ -8,15 +8,16 @@
 // horizontal chart =
 // kidney transplants by year (2017 - 2021)
 
-// stacked chart = 
+// stacked chart / 100 chart = 
 // all transplants by age
-
 
 
 // instanciate variables for csv data
 let digital
 let sales
 
+
+// data thats added to charts
 let stackedData
 let barData
 let donutData
@@ -24,16 +25,10 @@ let horData
 
 
 function preload() {
-  // digital consumption data
-  // https://data.gov.ie/dataset/oss01-household-consumption-of-digital-services/resource/03a2c013-2a9c-400f-a7ea-de045873e81f/view/e2fa8642-fc65-472f-af8d-299368769582#&r=C03856V04606&c=TLIST(A1)
-
+  
   // transplant data
   // https://data.cso.ie/table/DHA64
 
-  // load data from csv and return it as array of objects
-  let data = loadTable('data/household_consumption_of_digital_services.csv', 'csv', 'header', () => {
-    digital = Object.values(data.getObject())
-  })
 
   // load transplant data from csv and return as array of objects
   let stacked = loadTable('./data/transplant-data/stacked-data.csv', 'csv', 'header', () => {
@@ -63,19 +58,12 @@ function preload() {
     // console.log(horData)
   })
 
-
-  // load fake data from csv and return as array of objects
-  // let salesStats = loadTable('data/testdata.csv', 'csv', 'header', () => {
-  //   sales = Object.values(salesStats.getObject())
-  //   })
-
 }
 
 
 // global text variables
 const globalTextSize = 12
-const globalTitleSize = 30
-
+const globalTitleSize = 25
 
 
 // donut chart global variables
@@ -83,7 +71,6 @@ const doWidth = 250
 const doHeight = 250
 const doPosX = 600
 const doPosy = 250
-
 
 
 // bar chart global variables
@@ -104,6 +91,14 @@ const stackedXLable = 'age range'
 const stackedYLable = 'number transplants'
 
 
+// stacked bar chart
+const hundWidth = 200
+const hundHeight = 300
+const hundPosX = 70
+const hundPosY = 1300
+const hundXLable = 'age range'
+const hundYLable = 'number transplants'
+
 
 // bar chart global variables
 const horBarChartWidth = 300
@@ -117,24 +112,25 @@ const horBarChartYLable = "years"
 // screen dimensions
 const screenWidth = 900
 const screenHeight = 2000
+const bg = 240
+const marginT = globalTitleSize
+const title = 'Organ Transplants Ireland 2021'
 
 
 function setup() {
-  createCanvas(screenWidth, screenHeight);
-  background(240);
-  angleMode(DEGREES);
-  rectMode(CORNER);
-  noLoop();
+  createCanvas(screenWidth, screenHeight)
+  background(bg)
+  angleMode(DEGREES)
+  rectMode(CORNER)
+  noLoop()
 
-  // load title size
+  // title for project
   textSize(globalTitleSize)
-  text("Household Consumption of Digital Services Europe", 0, 25)
-  text("Organ TransPlants By Age", 0, 600)
-
-
-  // load normal size
+  textAlign(CENTER)
+  text(title, screenWidth / 2 , marginT )
   textSize(globalTextSize)
 
+  
   // bar chart
   const barChart = new BarChart(barChartHeight, barChartWidth, barChartPosX, barChartPosy, barData, barChartXLable, barChartYLable)
   barChart.render()
@@ -144,11 +140,11 @@ function setup() {
   donutChart.render()
 
   // // stacked bar chart
-  // const stackedBarChart = new StackedBarChart(stackedWidth, stackedHeight, stackedPosX, stackedPosY, stackedData, stackedXLable, stackedYLable)
-  // stackedBarChart.render()
+  const stackedBarChart = new StackedBarChart(stackedWidth, stackedHeight, stackedPosX, stackedPosY, stackedData, stackedXLable, stackedYLable)
+  stackedBarChart.render()
 
   // 100 % stacked bar chart
-  const stackedHundred = new StackedHund(stackedWidth, stackedHeight, stackedPosX, stackedPosY - 30, stackedData, stackedXLable, stackedYLable)
+  const stackedHundred = new StackedHund(hundWidth, hundHeight, hundPosX, hundPosY, stackedData, hundXLable, hundYLable)
   stackedHundred.render()
 
   // horizotal bar chart
@@ -156,6 +152,7 @@ function setup() {
   horBarChart.render()
 
 }
+
 
 function draw() {
   // null
