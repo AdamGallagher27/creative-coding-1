@@ -38,29 +38,29 @@ function preload() {
   // load transplant data from csv and return as array of objects
   let stacked = loadTable('./data/transplant-data/stacked-data.csv', 'csv', 'header', () => {
     stackedData = Object.values(stacked.getObject())
-    console.log("stacked chart data")
-    console.log(stackedData)
+    // console.log("stacked chart data")
+    // console.log(stackedData)
   })
 
   // load transplant data from csv and return as array of objects
   let bar = loadTable('./data/transplant-data/bar-data.csv', 'csv', 'header', () => {
     barData = Object.values(bar.getObject())
-    console.log("bar chart data")
-    console.log(barData)
+    // console.log("bar chart data")
+    // console.log(barData)
   })
 
   // load transplant data from csv and return as array of objects
   let donut = loadTable('./data/transplant-data/donut-data.csv', 'csv', 'header', () => {
     donutData = Object.values(donut.getObject())
-    console.log("donut data")
-    console.log(donutData)
+    // console.log("donut data")
+    // console.log(donutData)
   })
 
   // load transplant data from csv and return as array of objects
   let horizontal = loadTable('./data/transplant-data/horizontal-data.csv', 'csv', 'header', () => {
     horData = Object.values(horizontal.getObject())
-    console.log("horizontal data")
-    console.log(horData)
+    // console.log("horizontal data")
+    // console.log(horData)
   })
 
 
@@ -116,7 +116,7 @@ const horBarChartYLable = "years"
 
 // screen dimensions
 const screenWidth = 900
-const screenHeight = 1200
+const screenHeight = 2000
 
 
 function setup() {
@@ -143,9 +143,13 @@ function setup() {
   const donutChart = new Donut(doWidth, doHeight, doPosX, doPosy, donutData)
   donutChart.render()
 
-  // stacked bar chart
-  const stackedBarChart = new StackedBarChart(stackedWidth, stackedHeight, stackedPosX, stackedPosY, stackedData, stackedXLable, stackedYLable)
-  stackedBarChart.render()
+  // // stacked bar chart
+  // const stackedBarChart = new StackedBarChart(stackedWidth, stackedHeight, stackedPosX, stackedPosY, stackedData, stackedXLable, stackedYLable)
+  // stackedBarChart.render()
+
+  // 100 % stacked bar chart
+  const stackedHundred = new StackedHund(stackedWidth, stackedHeight, stackedPosX, stackedPosY - 30, stackedData, stackedXLable, stackedYLable)
+  stackedHundred.render()
 
   // horizotal bar chart
   const horBarChart = new HorBarChart(horBarChartHeight, horBarChartWidth, horBarChartPosX, horBarChartPosy, horData, horBarChartXLable, horBarChartYLable)
