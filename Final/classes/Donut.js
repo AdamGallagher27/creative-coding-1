@@ -9,9 +9,12 @@ class Donut {
         this.xPos = xPos
         this.yPos = yPos
         this.data = data.sort((a, b) => a.percent - b.percent)
+        this.cleanData = this.getPercent(this.data)
         this.textMargin = 170
         this.rotations = []
         this.lableOffSet = -20
+        this.labelWidth = 60
+        
 
         // colors
         this.colorIndex = 0
@@ -25,12 +28,11 @@ class Donut {
 
         push()
         translate(this.xPos, this.yPos)
-
         
         noStroke()
         
         // draw the first segment in the same place every time
-        const firstData = this.data[0]
+        const firstData = this.cleanData[0]
         this.drawSegment(firstData)
         
         
@@ -44,7 +46,7 @@ class Donut {
             })
 
             // draw the segment for the current
-            this.drawSegment(this.data[i], prevRotations)
+            this.drawSegment(this.cleanData[i], prevRotations)
             pop()
         }
         
@@ -85,7 +87,8 @@ class Donut {
         // rotate by upright to make text upright
         rotate(upRight)
         fill(0)
-        text(data.type + ` (${parseFloat(data.percent)}%)`, 0, -20, true)
+        textAlign(LEFT)
+        text(data.name + ` (${parseFloat(data.percent)}%)`, this.lableOffSet, this.lableOffSet, this.labelWidth)
         pop()
 
 
@@ -118,38 +121,33 @@ class Donut {
         return color(this.colors[this.colorIndex])
     }
 
-    // getPercent(data) {
-    //     // final to be returned at the end
-    //     let final = []
-
-    //     // varaible for the color scale 
-    //     const colorScale = this.scaleColor()
+    getPercent(data) {
+        // final to be returned at the end
+        let final = []
 
 
-    //     // sum of all the values in inital data
-    //     const sum = data.reduce((accumulator, object) => {
-    //         return accumulator + object.value;
-    //     }, 0);
+        // sum of all the values in inital data
+        const sum = data.reduce((accumulator, object) => {
+            return accumulator + int(object.value);
+        }, 0);
 
-    //     console.log(sum)
 
-    //     data.forEach((element, index) => {
+        data.forEach((element) => {
 
-    //         // should use class / contructor here
-    //         // restructuring intial data to be a percentage and have a color
-    //         let current = {
-    //             name: element.name,
-    //             percent: (element.value / sum) * 100,
-    //         }
+            // should use class / contructor here
+            // restructuring intial data to be a percentage and have a color
+            let current = {
+                name: element.age,
+                percent: parseInt((element.value / sum) * 100,)
+            }
 
-    //         console.log(current)
-    //         // add them to final
-    //         final.push(current)
-    //     }, 0);
+            // add them to final
+            final.push(current)
+        }, 0);
 
-    //     // return the new data in a sorted array
-    //     return final.sort((a, b) => a.percent - b.percent)
-    // }
+        // return the new data in a sorted array
+        return final.sort((a, b) => a.percent - b.percent)
+    }
 
 
 }
