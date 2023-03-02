@@ -1,14 +1,16 @@
 
 class BarChart {
     // constructs object
-    constructor(_height, _width, _posX, _posY, _data, _xLable='', _yLable='') {
-        this.height = _height
-        this.width = _width
-        this.posX = _posX
-        this.posY = _posY
-        this.data = _data
-        this.xLable = _xLable
-        this.yLable = _yLable
+    constructor(height, width, posX, posY, data, xLable='', yLable='', title='') {
+        this.height = height
+        this.width = width
+        this.posX = posX
+        this.posY = posY
+        this.data = data
+        this.xLable = xLable
+        this.yLable = yLable
+        this.title = title
+
 
         // globals
         this.valGap = 5
@@ -20,6 +22,10 @@ class BarChart {
         this.marginAxisL = 50
         this.tickWidth = 10
         this.nTicks = 4
+        this.titleSize = 18
+        this.titleMargin = -290
+
+        // calculations
         this.blockWidth = (this.width - (this.marginL * 2) - ((this.nBlocks - 1))) / this.nBlocks
         this.mainGap = this.blockWidth + this.valGap
         this.maxVal =  Math.max(...this.data.map(o => o.value))
@@ -37,6 +43,7 @@ class BarChart {
     render() {
         push()
         translate(this.posX, this.posY)
+        this.mainTitle()
         this.drawBars()
         this.drawAxis()
         this.drawAxis(false)
@@ -45,9 +52,21 @@ class BarChart {
         
     }
 
+    // draw main title
+    mainTitle() {
+        push()
+        textSize(this.titleSize)
+        noStroke()
+        rectMode(CENTER)
+        const titleWidth = this.width
+        text(this.title, this.width / 2, this.titleMargin, titleWidth)
+        pop()
+    }
+
+
     // draws the titles for each axis
     axisTitles() {
-        textSize(18)
+        textSize(this.titleSize)
         textAlign(CENTER)
         noStroke()
 

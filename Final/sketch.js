@@ -74,6 +74,7 @@ const doPosy = 250
 
 
 // bar chart global variables
+const barChartTitle = 'amount of kidney, lung, heart and liver transplants in ireland 2021'
 const barChartWidth = 300
 const barChartHeight = 200
 const barChartPosX = 70
@@ -100,8 +101,8 @@ const hundXLable = 'age range'
 const hundYLable = 'number transplants'
 
 
-// bar chart global variables
-const horBarChartWidth = 300
+// horizontal bar chart global variables
+const horBarChartWidth = 400
 const horBarChartHeight = 300
 const horBarChartPosX = 550
 const horBarChartPosy = 900
@@ -110,7 +111,7 @@ const horBarChartYLable = "years"
 
 
 // screen dimensions
-const screenWidth = 900
+const screenWidth = 1500
 const screenHeight = 2000
 const bg = 240
 const marginT = globalTitleSize
@@ -132,7 +133,7 @@ function setup() {
 
   
   // bar chart
-  const barChart = new BarChart(barChartHeight, barChartWidth, barChartPosX, barChartPosy, barData, barChartXLable, barChartYLable)
+  const barChart = new BarChart(barChartHeight, barChartWidth, barChartPosX, barChartPosy, barData, barChartXLable, barChartYLable, barChartTitle)
   barChart.render()
 
   // donut chart
