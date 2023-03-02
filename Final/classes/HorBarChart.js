@@ -18,9 +18,10 @@ class HorBarChart {
         this.marginB = 10
         this.marginAxisT = 60
         this.marginAxisL = 60
-        this.tickWidth = 10
+        this.tickMargin = 10
+        this.tickWidth = -6
         this.nTicks = this.data.length
-        this.nBottomTitles = 4
+        this.nBottomTitles = 4  
 
         this.blockWidth = (this.height - (this.marginL * 2) - ((this.nBlocks - 1))) / this.nBlocks
         this.maxVal = Math.max(...this.data.map(obj => obj.value))
@@ -36,7 +37,6 @@ class HorBarChart {
 
     render() {
         push()
-        console.log(this.data)
         translate(this.posX, this.posY)
         this.drawAxis()
         this.drawAxis(false)
@@ -75,9 +75,9 @@ class HorBarChart {
                 noStroke()
                 textAlign(RIGHT, CENTER)
                 fill(0)
-                text(this.data[i].year, -this.tickWidth, i * -tGap)
+                text(this.data[i].year, -this.tickMargin, i * -tGap)
                 stroke(100)
-                line(0, i * -tGap, -6, -i * tGap)
+                line(0, i * -tGap, this.tickWidth, -i * tGap)
             }
 
             pop()
@@ -106,7 +106,7 @@ class HorBarChart {
         let scaleData = this.scaleChart(this.data)
 
         noStroke()
-        let tGap = this.height / this.nTicks
+        let tGap = (this.height / this.nTicks) 
 
 
         // draw each bar
@@ -122,7 +122,7 @@ class HorBarChart {
 
     // scales data array
     scaleChart(arr) {
-        let scaleValue = this.height / this.maxVal;
+        let scaleValue = this.width / this.maxVal;
         let final = []
 
         for (let i = 0; i < arr.length; i++) {
