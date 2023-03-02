@@ -14,18 +14,15 @@ class HorBarChart {
         // globals
         this.nBlocks = this.data.length
         this.marginL = 20
-        this.marginT = 10
-        this.marginB = 10
         this.marginAxisT = 60
         this.marginAxisL = 60
         this.tickMargin = 10
         this.tickWidth = -6
         this.nTicks = this.data.length
-        this.nBottomTitles = 4  
 
+        // calculations
         this.blockWidth = (this.height - (this.marginL * 2) - ((this.nBlocks - 1))) / this.nBlocks
         this.maxVal = Math.max(...this.data.map(obj => obj.value))
-
         this.scaleData = this.height / this.maxVal;
 
         // colors
@@ -85,13 +82,13 @@ class HorBarChart {
 
     }
 
-
+    // draws the values along the x axis
     valueTitles() {
         noStroke()
-        const gap = this.width / this.nBottomTitles
+        const gap = this.width / this.nBlocks
         const textMargin = 16
 
-        for (let i = 0; i < this.nBottomTitles + 1; i++) {
+        for (let i = 0; i < this.nBlocks + 1; i++) {
 
             const numGap = this.maxVal / this.nTicks
             fill(0)
@@ -115,7 +112,9 @@ class HorBarChart {
             rotate(-90)
             translate((i * tGap), 0)
             fill(this.colorBar())
-            rect(0, 0, this.blockWidth, scaleData[i]);
+            rect(0, 0, this.blockWidth, scaleData[i])
+            rotate(90)
+            this.barTitles([scaleData[i], this.blockWidth / 2], this.data[i].value)
             pop();
         }
     }
@@ -132,6 +131,21 @@ class HorBarChart {
         return final
     }
 
+
+    // draws the values beside each bar 
+    barTitles(position, value) {
+        const x = position[0]
+        const y = -position[1]
+        const textMargin = 10
+        
+        push()
+        textAlign(LEFT, CENTER)
+        fill(0)
+        translate(x + textMargin, y)
+        text(value, 0, 0)
+        
+        pop()
+    }
 
     // draws the titles for each axis
     axisTitles() {
