@@ -13,17 +13,18 @@ class HorBarChart {
 
         // globals
         this.nBlocks = this.data.length
+        this.numAxisValues = 6
         this.marginL = 20
         this.marginAxisT = 60
         this.marginAxisL = 60
         this.tickMargin = 10
         this.tickWidth = -6
-        this.nTicks = this.data.length
+        this.titleSize = 18
 
         // calculations
         this.blockWidth = (this.height - (this.marginL * 2) - ((this.nBlocks - 1))) / this.nBlocks
         this.maxVal = Math.max(...this.data.map(obj => obj.value))
-        this.scaleData = this.height / this.maxVal;
+        this.scaleData = this.height / this.maxVal
 
         // colors
         this.colorIndex = 0
@@ -31,7 +32,7 @@ class HorBarChart {
         this.firstPass = true
     }
 
-
+    // render chart to the screen
     render() {
         push()
         translate(this.posX, this.posY)
@@ -63,12 +64,12 @@ class HorBarChart {
 
             push()
             // gaps between ticks
-            let tGap = this.height / this.nTicks
+            let tGap = this.height / this.nBlocks
 
             translate(0, -tGap / 2)
 
             // draw each tick
-            for (let i = 0; i < this.nTicks; i++) {
+            for (let i = 0; i < this.nBlocks; i++) {
                 noStroke()
                 textAlign(RIGHT, CENTER)
                 fill(0)
@@ -85,12 +86,15 @@ class HorBarChart {
     // draws the values along the x axis
     valueTitles() {
         noStroke()
-        const gap = this.width / this.nBlocks
-        const textMargin = 16
 
-        for (let i = 0; i < this.nBlocks + 1; i++) {
+        // get the space between each value
+        const gap = this.width / this.numAxisValues
+        const textMargin = 25
 
-            const numGap = this.maxVal / this.nTicks
+        // loop for each num axis values and draw the
+        // num gap for each lable
+        for (let i = 0; i < this.numAxisValues + 1; i++) {
+            const numGap = this.maxVal / this.numAxisValues
             fill(0)
             text(numGap.toFixed(0) * i, gap * i, textMargin)
         }
@@ -98,21 +102,24 @@ class HorBarChart {
 
     // draws the bars on the chart
     drawBars() {
+        noStroke()
 
         // data converted to an array of heights that are the right scale
-        let scaleData = this.scaleChart(this.data)
+        const scaleData = this.scaleChart(this.data)
 
-        noStroke()
-        let tGap = (this.height / this.nTicks) 
-
+        // gap between each bar
+        const gap = (this.height / this.nBlocks)
 
         // draw each bar
         for (let i = 0; i < this.nBlocks; i++) {
-            push();
+            push()
             rotate(-90)
-            translate((i * tGap), 0)
+            translate((i * gap), 0)
             fill(this.colorBar())
             rect(0, 0, this.blockWidth, scaleData[i])
+
+            // set the grid system up right
+            // draw the values foreach bar
             rotate(90)
             this.barTitles([scaleData[i], this.blockWidth / 2], this.data[i].value)
             pop();
@@ -124,6 +131,7 @@ class HorBarChart {
         let scaleValue = this.width / this.maxVal;
         let final = []
 
+        // add all the scale values to an array
         for (let i = 0; i < arr.length; i++) {
             final.push(arr[i].value * scaleValue)
         }
@@ -134,22 +142,22 @@ class HorBarChart {
 
     // draws the values beside each bar 
     barTitles(position, value) {
+
+        // position is expected to be
+        // an array with an x / y pos
         const x = position[0]
         const y = -position[1]
         const textMargin = 10
-        
-        push()
+
+        // draw each title
         textAlign(LEFT, CENTER)
         fill(0)
-        translate(x + textMargin, y)
-        text(value, 0, 0)
-        
-        pop()
+        text(value, x + textMargin, y)
     }
 
     // draws the titles for each axis
     axisTitles() {
-        textSize(18)
+        textSize(this.titleSize)
         textAlign(CENTER)
         noStroke()
 
