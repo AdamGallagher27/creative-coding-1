@@ -1,14 +1,17 @@
 
 class StackedBarChart {
     // constructs object
-    constructor(_height, _width, _posX, _posY, _data, _xLable = '', _yLable = '') {
-        this.height = _height
-        this.width = _width
-        this.posX = _posX
-        this.posY = _posY
-        this.data = _data
-        this.xLable = _xLable
-        this.yLable = _yLable
+    constructor(height, width, posX, posY, data, xLable = '', yLable = '', title = '') {
+        this.height = height
+        this.width = width
+        this.posX = posX
+        this.posY = posY
+        this.data = data
+        this.xLable = xLable
+        this.yLable = yLable
+        this.title = title
+        this.titleSize = 18
+        this.titleMargin = -40
 
         // globals
         this.valGap = 11
@@ -52,8 +55,23 @@ class StackedBarChart {
         this.axisTitles()
         const medianPosition = this.getMedianPositions()
         this.drawMedianLines( medianPosition )
+        this.mainTitle()
         pop()
     }
+
+
+    // draw main title
+	mainTitle() {
+		push()
+		textSize(this.titleSize)
+		noStroke()
+		textAlign(CENTER)
+		rectMode(CENTER)
+		const titleWidth = this.width
+		text(this.title, this.width / 2, -this.height + this.titleMargin, titleWidth)
+		pop()
+	}
+
 
     // scales data array
     scaleChart(arr) {
@@ -142,13 +160,8 @@ class StackedBarChart {
 
                 colorIndex += 1
             }
-            console.log(this.legendData)
-
             pop();
-
         }
-
-
     }
 
     // draws legend for chart
@@ -219,7 +232,7 @@ class StackedBarChart {
 
     }
 
-
+    // gets the positions of the median lines
     getMedianPositions() {
 
         let final = []
@@ -245,7 +258,7 @@ class StackedBarChart {
         return final
     }
 
-
+    // draws the median lines
     drawMedianLines(positions) {
 
         stroke(this.medianYellow)
@@ -253,7 +266,6 @@ class StackedBarChart {
 
 
         for(let i = 0; i < positions.length - 1; i++) {
-            // console.log(...positions[i])
             line(...positions[i], ...positions[i + 1])
         }
 

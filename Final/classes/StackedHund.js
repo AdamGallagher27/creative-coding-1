@@ -1,14 +1,17 @@
 
 class StackedHund {
 	// constructs object
-	constructor(_height, _width, _posX, _posY, _data, _xLable = '', _yLable = '') {
-		this.height = _height
-		this.width = _width
-		this.posX = _posX
-		this.posY = _posY
-		this.data = _data
-		this.xLable = _xLable
-		this.yLable = _yLable
+	constructor(height, width, posX, posY, data, xLable = '', yLable = '', title = '') {
+		this.height = height
+		this.width = width
+		this.posX = posX
+		this.posY = posY
+		this.data = data
+		this.xLable = xLable
+		this.yLable = yLable
+		this.title = title
+		this.titleSize = 18
+		this.titleMargin = -40
 
 		// globals
 		this.valGap = 11
@@ -45,6 +48,7 @@ class StackedHund {
 		this.drawLegend(this.legendData)
 		this.barTitle(this.data)
 		this.axisTitles()
+		this.mainTitle()
 		pop()
 	}
 
@@ -59,6 +63,19 @@ class StackedHund {
 		return final
 	}
 
+
+	// draw main title
+	mainTitle() {
+		push()
+		textSize(this.titleSize)
+		noStroke()
+		textAlign(CENTER)
+		rectMode(CENTER)
+		const titleWidth = this.width
+		text(this.title, this.width / 2, -this.height + this.titleMargin, titleWidth)
+		pop()
+	}
+	
 
 	// draws the vertical axis
 	drawAxis(vertical = true, lable = true) {

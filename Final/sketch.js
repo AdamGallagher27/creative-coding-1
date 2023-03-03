@@ -78,10 +78,11 @@ const globalTitleSize = 25
 
 
 // donut chart global variables
-const doWidth = 250
-const doHeight = 250
-const doPosX = 600
-const doPosy = 250
+const doTitle = 'liver transplants by age group (35-45 to 65-75)'
+const doWidth = 200
+const doHeight = 200
+const doPosX = 700
+const doPosy = 350
 
 
 // bar chart global variables
@@ -89,7 +90,7 @@ const barChartTitle = 'amount of kidney, lung, heart and liver transplants in ir
 const barChartWidth = 300
 const barChartHeight = 200
 const barChartPosX = 70
-const barChartPosy = 350
+const barChartPosy = 450
 const barChartXLable = "type of transplants"
 const barChartYLable = "num transplants"
 
@@ -98,8 +99,8 @@ const barChartYLable = "num transplants"
 const scatterChartTitle = 'number of kidney transplants by age'
 const scatterChartWidth = 300
 const scatterChartHeight = 200
-const scatterChartPosX = 550
-const scatterChartPosy = 350
+const scatterChartPosX = 1100
+const scatterChartPosy = 450
 const scatterChartXLable = "age range"
 const scatterChartYLable = "num transplants"
 
@@ -111,20 +112,22 @@ const stackedPosX = 70
 const stackedPosY = 900
 const stackedXLable = 'age range'
 const stackedYLable = 'number transplants'
+const stackedTitle = 'all transplants by age'
 
 
 // stacked 100% bar chart
 const hundWidth = 200
 const hundHeight = 300
-const hundPosX = 70
-const hundPosY = 1300
+const hundPosX = 1100
+const hundPosY = 900
 const hundXLable = 'age range'
 const hundYLable = 'number transplants'
 
 
 // horizontal bar chart global variables
-const horBarChartWidth = 400
-const horBarChartHeight = 300
+const horTitle = 'kidney transplants by year (2017 - 2021)'
+const horBarChartWidth = 350
+const horBarChartHeight = 200
 const horBarChartPosX = 550
 const horBarChartPosy = 900
 const horBarChartXLable = "num kidney transplants"
@@ -133,7 +136,7 @@ const horBarChartYLable = "years"
 
 // screen dimensions
 const screenWidth = 1500
-const screenHeight = 2000
+const screenHeight = 1500
 const bg = 240
 const marginT = globalTitleSize
 const title = 'Organ Transplants Ireland 2021'
@@ -158,19 +161,19 @@ function setup() {
 	barChart.render()
 
 	// donut chart
-	// const donutChart = new Donut(doWidth, doHeight, doPosX, doPosy, donutData)
-	// donutChart.render()
+	const donutChart = new Donut(doWidth, doHeight, doPosX, doPosy, donutData, doTitle)
+	donutChart.render()
 
-	// // stacked bar chart
-	const stackedBarChart = new StackedBarChart(stackedWidth, stackedHeight, stackedPosX, stackedPosY, stackedData, stackedXLable, stackedYLable)
+	// stacked bar chart
+	const stackedBarChart = new StackedBarChart(stackedWidth, stackedHeight, stackedPosX, stackedPosY, stackedData, stackedXLable, stackedYLable, stackedTitle)
 	stackedBarChart.render()
 
 	// 100 % stacked bar chart
-	const stackedHundred = new StackedHund(hundWidth, hundHeight, hundPosX, hundPosY, stackedData, hundXLable, hundYLable)
+	const stackedHundred = new StackedHund(hundWidth, hundHeight, hundPosX, hundPosY, stackedData, hundXLable, hundYLable, stackedTitle)
 	stackedHundred.render()
 
 	// horizotal bar chart
-	const horBarChart = new HorBarChart(horBarChartHeight, horBarChartWidth, horBarChartPosX, horBarChartPosy, horData, horBarChartXLable, horBarChartYLable)
+	const horBarChart = new HorBarChart(horBarChartHeight, horBarChartWidth, horBarChartPosX, horBarChartPosy, horData, horBarChartXLable, horBarChartYLable, horTitle)
 	horBarChart.render()
 
 	// bar chart

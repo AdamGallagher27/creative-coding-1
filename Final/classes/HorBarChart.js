@@ -2,13 +2,16 @@
 
 class HorBarChart {
     // constructs object
-    constructor(height, width, posX, posY, data, xLable = '', yLable = '') {
+    constructor(height, width, posX, posY, data, xLable = '', yLable = '', title='') {
         this.height = height
         this.width = width
         this.posX = posX
         this.posY = posY
         this.xLable = xLable
         this.yLable = yLable
+        this.title = title
+        this.titleMargin = -50
+        this.titleSize = 18
 
         // changed the keys in data to be X and Y
         // cleanedData expects data to be an array of objects
@@ -47,8 +50,24 @@ class HorBarChart {
         this.drawBars(this.data)
         this.valueTitles()
         this.axisTitles()
+        this.mainTitle()
         pop()
     }
+
+
+    // draw main title
+	mainTitle() {
+		push()
+		textSize(this.titleSize)
+		noStroke()
+		textAlign(CENTER)
+		rectMode(CENTER)
+		const titleWidth = this.width
+        rotate(90)
+		text(this.title, this.width / 2, -this.height + this.titleMargin, titleWidth)
+		pop()
+	}
+
 
     // draws the vertical axis
     drawAxis(vertical = true, lable = true) {
