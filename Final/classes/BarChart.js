@@ -1,16 +1,21 @@
 
 class BarChart {
     // constructs object
-    constructor(height, width, posX, posY, data, xLable='', yLable='', title='') {
+    constructor(height, width, posX, posY, data, xLable = '', yLable = '', title = '') {
         this.height = height
         this.width = width
         this.posX = posX
         this.posY = posY
-        this.data = data
         this.xLable = xLable
         this.yLable = yLable
         this.title = title
-
+        
+        // changed the keys in data to be X and Y
+        // cleanedData expects data to be an array of objects
+        // each object should have 2 properties
+        // first property is expected to be the X value
+        // second is the Y value
+        this.data = this.cleanData(data)
 
         // globals
         this.valGap = 5
@@ -28,7 +33,7 @@ class BarChart {
         // calculations
         this.blockWidth = (this.width - (this.marginL * 2) - ((this.nBlocks - 1))) / this.nBlocks
         this.mainGap = this.blockWidth + this.valGap
-        this.maxVal =  Math.max(...this.data.map(o => o.value))
+        this.maxVal = Math.max(...this.data.map(o => o.y))
 
         // colors
         this.colorIndex = 0
@@ -49,7 +54,7 @@ class BarChart {
         this.drawAxis(false)
         this.axisTitles()
         pop()
-        
+
     }
 
     // draw main title
@@ -80,13 +85,13 @@ class BarChart {
 
 
     // draws the vertical axis
-    drawAxis(vertical=true, lable=true) {
+    drawAxis(vertical = true, lable = true) {
         noFill()
         stroke(50)
 
         // if vertical is true draw the vertical line
-        if(vertical) {
-            line(0, 0, 0, -this.height)    
+        if (vertical) {
+            line(0, 0, 0, -this.height)
         }
         // else draw horizontal line
         else {
@@ -95,7 +100,7 @@ class BarChart {
 
 
         // if lable is true show the ticks / lables
-        if(lable) {
+        if (lable) {
 
             // gaps between ticks
             let tGap = this.height / this.nTicks
@@ -104,28 +109,29 @@ class BarChart {
             let numGap = this.maxVal / this.nTicks
 
             // draw each tick
-            for(let i = 0; i <= this.nTicks; i++) {
+            for (let i = 0; i <= this.nTicks; i++) {
                 noStroke()
                 textAlign(RIGHT, CENTER)
                 fill(0)
-                text(i*numGap.toFixed(0), -this.tickWidth, i*-tGap)
+                text(i * numGap.toFixed(0), -this.tickWidth, i * -tGap)
                 stroke(100)
-                line(0, i*-tGap, -6, -i*tGap)
+                line(0, i * -tGap, -6, -i * tGap)
             }
         }
 
     }
 
-
+    // adds the titles and values for each bar
     barTitle(height, value, title) {
         fill(0)
         const xAxis = (this.blockWidth / 2)
+        const textAngle = -50
         textAlign(CENTER)
         text(value, xAxis, -height - this.marginT)
         translate(xAxis, this.marginB)
         push()
         textAlign(RIGHT, TOP)
-        rotate(-50)
+        rotate(textAngle)
         text(title, 0, 0)
         pop()
     }
@@ -141,12 +147,12 @@ class BarChart {
 
         // draw each bar
         for (let i = 0; i < this.nBlocks; i++) {
-            push();
+            push()
             translate(this.marginL + (i * this.mainGap), 0)
             fill(this.colorBar())
-            rect(0, 0, this.blockWidth, -scaleData[i]);
-            this.barTitle(scaleData[i], this.data[i].value, this.data[i].type)
-            pop();
+            rect(0, 0, this.blockWidth, -scaleData[i])
+            this.barTitle(scaleData[i], this.data[i].y, this.data[i].x)
+            pop()
         }
     }
 
@@ -156,7 +162,7 @@ class BarChart {
         let final = []
 
         for (let i = 0; i < arr.length; i++) {
-            final.push(arr[i].value * scaleValue)
+            final.push(arr[i].y * scaleValue)
         }
 
         return final
@@ -166,21 +172,48 @@ class BarChart {
     colorBar() {
 
         // if its the first pass display the first colour
-        if(this.colorIndex === 0 && this.firstPass) {
+        if (this.colorIndex === 0 && this.firstPass) {
             this.firstPass = false
-            return color(this.colors[this.colorIndex]) 
+            return color(this.colors[this.colorIndex])
         }
 
         // increment color index
         this.colorIndex += 1
 
         // if index is greater than length reset
-        if(this.colorIndex === this.colors.length) {
+        if (this.colorIndex === this.colors.length) {
             this.colorIndex = 0
         }
 
         // return the colour at colour index
         return color(this.colors[this.colorIndex])
     }
-    
+
+    // function for cleaning 2d data
+    cleanData(data) {
+
+        let cleaned = []
+
+        // get array of the keys
+        const keys = Object.keys(data[0])
+
+        // x lable
+        const xLable = keys[0]
+
+        // y lable
+        const yLable = keys[1]
+        
+        // create a new object with 
+        data.forEach(element => {
+            const current = {
+                x: element[xLable],
+                y: element[yLable]
+            }
+            
+            cleaned.push(current)
+        })
+        
+        return cleaned
+    }
+
 }
