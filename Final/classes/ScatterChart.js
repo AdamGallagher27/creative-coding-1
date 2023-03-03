@@ -6,10 +6,16 @@ class ScatterChart {
 		this.width = width
 		this.posX = posX
 		this.posY = posY
-		this.data = data
 		this.xLable = xLable
 		this.yLable = yLable
 		this.title = title
+		
+		// changed the keys in data to be X and Y
+        // cleanedData expects data to be an array of objects
+        // each object should have 2 properties
+        // first property is expected to be the X value
+        // second is the Y value
+		this.data = this.cleanData(data)
 
 		// globals
 		this.marginL = 20
@@ -23,15 +29,10 @@ class ScatterChart {
 		this.titleMargin = -290
 
 		// calculations
-		this.maxVal = Math.max(...this.data.map(o => o.value))
+		this.maxVal = Math.max(...this.data.map(o => o.y))
 		this.scaleValue = this.height / this.maxVal
 		this.numPlots = this.data.length
 
-
-		// colors
-		this.colorIndex = 0
-		this.colors = ['#004c6d', '#4c7c9b', '#86b0cc', '#c1e7ff']
-		this.firstPass = true
 	}
 
 
@@ -66,9 +67,9 @@ class ScatterChart {
 		// add the plots and draw the lables
 		for(let i = 0; i < this.numPlots; i++) {
 			const element = this.data[i]
-			const currentHeight = this.findPlot(element.value)
+			const currentHeight = this.findPlot(element.y)
 			ellipse(i * gap, -currentHeight, 10, 10)
-			this.valueTitle((i) * gap, element.age)
+			this.valueTitle((i) * gap, element.x)
 		}
 		pop()
 	}
@@ -76,7 +77,6 @@ class ScatterChart {
 
 	// draw main title
 	mainTitle() {
-		console.log(this.data)
 		push()
 		textSize(this.titleSize)
 		noStroke()
@@ -151,5 +151,33 @@ class ScatterChart {
         rotate(-50)
         text(title, 0, 0)
 		pop()
+    }
+
+
+	// function for cleaning 2d data
+    cleanData(data) {
+
+        let cleaned = []
+
+        // get array of the keys
+        const keys = Object.keys(data[0])
+
+        // x lable
+        const xLable = keys[0]
+
+        // y lable
+        const yLable = keys[1]
+        
+        // create a new object with 
+        data.forEach(element => {
+            const current = {
+                x: element[xLable],
+                y: element[yLable]
+            }
+            
+            cleaned.push(current)
+        })
+        
+        return cleaned
     }
 }
