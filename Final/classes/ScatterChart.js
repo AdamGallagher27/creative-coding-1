@@ -11,7 +11,6 @@ class ScatterChart {
 		this.yLable = yLable
 		this.title = title
 
-
 		// globals
 		this.marginL = 20
 		this.marginT = 10
@@ -25,6 +24,9 @@ class ScatterChart {
 
 		// calculations
 		this.maxVal = Math.max(...this.data.map(o => o.value))
+		this.scaleValue = this.height / this.maxVal
+		this.numPlots = this.data.length
+
 
 		// colors
 		this.colorIndex = 0
@@ -33,18 +35,52 @@ class ScatterChart {
 	}
 
 
-
-
 	// renders the chart
 	render() {
-		console.log('render me')
+		push()
+		translate(this.posX, this.posY)
+		this.drawAxis()
+		this.drawAxis(false)
+		this.mainTitle()
+		this.axisTitles()
+		this.addPlot()
+		pop()
 	}
+
+	// gets the location of the plots
+	findPlot(value) {
+		return value * this.scaleValue
+	}
+
+	// function to add the plots to the screen
+	addPlot() {
+
+		// gap for each plot
+		const gap = this.width / this.numPlots
+
+		push()
+
+		// translating half the gap to center plots
+		translate(gap / 2, 0)
+
+		// add the plots and draw the lables
+		for(let i = 0; i < this.numPlots; i++) {
+			const element = this.data[i]
+			const currentHeight = this.findPlot(element.value)
+			ellipse(i * gap, -currentHeight, 10, 10)
+			this.valueTitle((i) * gap, element.age)
+		}
+		pop()
+	}
+
 
 	// draw main title
 	mainTitle() {
+		console.log(this.data)
 		push()
 		textSize(this.titleSize)
 		noStroke()
+		textAlign(CENTER)
 		rectMode(CENTER)
 		const titleWidth = this.width
 		text(this.title, this.width / 2, this.titleMargin, titleWidth)
@@ -54,6 +90,7 @@ class ScatterChart {
 
 	// draws the titles for each axis
 	axisTitles() {
+		push()
 		textSize(this.titleSize)
 		textAlign(CENTER)
 		noStroke()
@@ -64,6 +101,7 @@ class ScatterChart {
 		// Y axis lable
 		rotate(-90)
 		text(this.yLable, this.height / 2, -this.marginAxisL)
+		pop()
 	}
 
 
@@ -104,20 +142,14 @@ class ScatterChart {
 
 	}
 
-
-	
-	// scales data array
-	scaleChart(arr) {
-		let scaleValue = this.height / this.maxVal;
-		let final = []
-
-		for (let i = 0; i < arr.length; i++) {
-			final.push(arr[i].value * scaleValue)
-		}
-
-		return final
-	}
-
-	
-
+	// adds the titles for each value
+	valueTitle(xPos, title) {
+        push()
+		translate(xPos, 0)
+		textAlign(RIGHT, TOP)
+		noStroke()
+        rotate(-50)
+        text(title, 0, 0)
+		pop()
+    }
 }
