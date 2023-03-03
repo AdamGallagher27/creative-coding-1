@@ -29,45 +29,45 @@ let scatterData
 
 
 function preload() {
-  
-  // transplant data
-  // https://data.cso.ie/table/DHA64
+
+	// transplant data
+	// https://data.cso.ie/table/DHA64
 
 
-  // load transplant data from csv and return as array of objects
-  let stacked = loadTable('./data/transplant-data/stacked-data.csv', 'csv', 'header', () => {
-    stackedData = Object.values(stacked.getObject())
-    // console.log("stacked chart data")
-    // console.log(stackedData)
-  })
+	// load transplant data from csv and return as array of objects
+	let stacked = loadTable('./data/transplant-data/stacked-data.csv', 'csv', 'header', () => {
+		stackedData = Object.values(stacked.getObject())
+		// console.log("stacked chart data")
+		// console.log(stackedData)
+	})
 
-  // load transplant data from csv and return as array of objects
-  let bar = loadTable('./data/transplant-data/bar-data.csv', 'csv', 'header', () => {
-    barData = Object.values(bar.getObject())
-    // console.log("bar chart data")
-    // console.log(barData)
-  })
+	// load transplant data from csv and return as array of objects
+	let bar = loadTable('./data/transplant-data/bar-data.csv', 'csv', 'header', () => {
+		barData = Object.values(bar.getObject())
+		// console.log("bar chart data")
+		// console.log(barData)
+	})
 
-  // load transplant data from csv and return as array of objects
-  let donut = loadTable('./data/transplant-data/donut-data.csv', 'csv', 'header', () => {
-    donutData = Object.values(donut.getObject())
-    // console.log("donut data")
-    // console.log(donutData)
-  })
+	// load transplant data from csv and return as array of objects
+	let donut = loadTable('./data/transplant-data/donut-data.csv', 'csv', 'header', () => {
+		donutData = Object.values(donut.getObject())
+		// console.log("donut data")
+		// console.log(donutData)
+	})
 
-  // load transplant data from csv and return as array of objects
-  let horizontal = loadTable('./data/transplant-data/horizontal-data.csv', 'csv', 'header', () => {
-    horData = Object.values(horizontal.getObject())
-    // console.log("horizontal data")
-    // console.log(horData)
-  })
+	// load transplant data from csv and return as array of objects
+	let horizontal = loadTable('./data/transplant-data/horizontal-data.csv', 'csv', 'header', () => {
+		horData = Object.values(horizontal.getObject())
+		// console.log("horizontal data")
+		// console.log(horData)
+	})
 
-  // load transplant data from csv and return as array of objects
-  let scatter = loadTable('./data/transplant-data/scatter-data.csv', 'csv', 'header', () => {
-    scatterData = Object.values(scatter.getObject())
-    // console.log("scatter data")
-    // console.log(scatterData)
-  })
+	// load transplant data from csv and return as array of objects
+	let scatter = loadTable('./data/transplant-data/scatter-data.csv', 'csv', 'header', () => {
+		scatterData = Object.values(scatter.getObject())
+		// console.log("scatter data")
+		// console.log(scatterData)
+	})
 
 }
 
@@ -94,6 +94,16 @@ const barChartXLable = "type of transplants"
 const barChartYLable = "num transplants"
 
 
+// bar chart global variables
+const scatterChartTitle = 'number of kidney transplants by age'
+const scatterChartWidth = 300
+const scatterChartHeight = 200
+const scatterChartPosX = 550
+const scatterChartPosy = 350
+const scatterChartXLable = "age range"
+const scatterChartYLable = "num transplants"
+
+
 // stacked bar chart
 const stackedWidth = 200
 const stackedHeight = 300
@@ -103,7 +113,7 @@ const stackedXLable = 'age range'
 const stackedYLable = 'number transplants'
 
 
-// stacked bar chart
+// stacked 100% bar chart
 const hundWidth = 200
 const hundHeight = 300
 const hundPosX = 70
@@ -130,42 +140,46 @@ const title = 'Organ Transplants Ireland 2021'
 
 
 function setup() {
-  createCanvas(screenWidth, screenHeight)
-  background(bg)
-  angleMode(DEGREES)
-  rectMode(CORNER)
-  noLoop()
+	createCanvas(screenWidth, screenHeight)
+	background(bg)
+	angleMode(DEGREES)
+	rectMode(CORNER)
+	noLoop()
 
-  // title for project
-  textSize(globalTitleSize)
-  textAlign(CENTER)
-  text(title, screenWidth / 2 , marginT )
-  textSize(globalTextSize)
+	// title for project
+	textSize(globalTitleSize)
+	textAlign(CENTER)
+	text(title, screenWidth / 2, marginT)
+	textSize(globalTextSize)
 
-  
-  // bar chart
-  const barChart = new BarChart(barChartHeight, barChartWidth, barChartPosX, barChartPosy, barData, barChartXLable, barChartYLable, barChartTitle)
-  barChart.render()
 
-  // donut chart
-  const donutChart = new Donut(doWidth, doHeight, doPosX, doPosy, donutData)
-  donutChart.render()
+	// bar chart
+	const barChart = new BarChart(barChartHeight, barChartWidth, barChartPosX, barChartPosy, barData, barChartXLable, barChartYLable, barChartTitle)
+	barChart.render()
 
-  // // stacked bar chart
-  const stackedBarChart = new StackedBarChart(stackedWidth, stackedHeight, stackedPosX, stackedPosY, stackedData, stackedXLable, stackedYLable)
-  stackedBarChart.render()
+	// donut chart
+	// const donutChart = new Donut(doWidth, doHeight, doPosX, doPosy, donutData)
+	// donutChart.render()
 
-  // 100 % stacked bar chart
-  const stackedHundred = new StackedHund(hundWidth, hundHeight, hundPosX, hundPosY, stackedData, hundXLable, hundYLable)
-  stackedHundred.render()
+	// // stacked bar chart
+	const stackedBarChart = new StackedBarChart(stackedWidth, stackedHeight, stackedPosX, stackedPosY, stackedData, stackedXLable, stackedYLable)
+	stackedBarChart.render()
 
-  // horizotal bar chart
-  const horBarChart = new HorBarChart(horBarChartHeight, horBarChartWidth, horBarChartPosX, horBarChartPosy, horData, horBarChartXLable, horBarChartYLable)
-  horBarChart.render()
+	// 100 % stacked bar chart
+	const stackedHundred = new StackedHund(hundWidth, hundHeight, hundPosX, hundPosY, stackedData, hundXLable, hundYLable)
+	stackedHundred.render()
+
+	// horizotal bar chart
+	const horBarChart = new HorBarChart(horBarChartHeight, horBarChartWidth, horBarChartPosX, horBarChartPosy, horData, horBarChartXLable, horBarChartYLable)
+	horBarChart.render()
+
+	// bar chart
+	const scatterChart = new ScatterChart(scatterChartHeight, scatterChartWidth, scatterChartPosX, scatterChartPosy, scatterData, scatterChartXLable, scatterChartYLable, scatterChartTitle)
+	scatterChart.render()
 
 }
 
 
 function draw() {
-  // null
+	// null
 } 
