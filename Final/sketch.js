@@ -11,6 +11,9 @@
 // stacked chart / 100 chart = 
 // all transplants by age
 
+// scatter chart =
+// number of kidney transplants by age
+
 
 // instanciate variables for csv data
 let digital
@@ -22,6 +25,7 @@ let stackedData
 let barData
 let donutData
 let horData
+let scatterData
 
 
 function preload() {
@@ -56,6 +60,13 @@ function preload() {
     horData = Object.values(horizontal.getObject())
     // console.log("horizontal data")
     // console.log(horData)
+  })
+
+  // load transplant data from csv and return as array of objects
+  let scatter = loadTable('./data/transplant-data/scatter-data.csv', 'csv', 'header', () => {
+    scatterData = Object.values(scatter.getObject())
+    // console.log("scatter data")
+    // console.log(scatterData)
   })
 
 }
