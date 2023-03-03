@@ -1,20 +1,22 @@
 
 
 class Donut {
-    constructor(width, height, xPos, yPos, data) {
+    constructor(width, height, xPos, yPos, data, title='') {
 
         // globals
         this.width = width
         this.height = height
         this.xPos = xPos
         this.yPos = yPos
-        this.data = data.sort((a, b) => a.percent - b.percent)
-        this.cleanData = this.getPercent(this.data)
-        this.textMargin = 170
+        this.data = this.cleanData(data)
+        this.cleanedData = this.getPercent(this.data)
+        this.textMargin = 140
         this.rotations = []
         this.lableOffSet = -20
         this.labelWidth = 60
-        
+        this.title = title
+        this.titleSize = 18
+        this.titleMargin = -220
 
         // colors
         this.colorIndex = 0
@@ -32,7 +34,7 @@ class Donut {
         noStroke()
         
         // draw the first segment in the same place every time
-        const firstData = this.cleanData[0]
+        const firstData = this.cleanedData[0]
         this.drawSegment(firstData)
         
         
@@ -46,14 +48,18 @@ class Donut {
             })
 
             // draw the segment for the current
-            this.drawSegment(this.cleanData[i], prevRotations)
+            this.drawSegment(this.cleanedData[i], prevRotations)
             pop()
         }
         
 
         // for center of donut
-        ellipse(0, 0, this.width / 2)
+        // ellipse(0, 0, this.width / 2)
+        // rect(0,0,100,100)
+        fill(0)
+        this.mainTitle()
         pop()
+
     }
 
     drawSegment(data, prevRotat = 0) {
@@ -88,7 +94,7 @@ class Donut {
         rotate(upRight)
         fill(0)
         textAlign(LEFT)
-        text(data.name + ` (${parseFloat(data.percent)}%)`, this.lableOffSet, this.lableOffSet, this.labelWidth)
+        text(data.name + ` (${parseFloat(data.percent).toFixed(1)}%)`, this.lableOffSet, this.lableOffSet, this.labelWidth)
         pop()
 
 
@@ -128,7 +134,7 @@ class Donut {
 
         // sum of all the values in inital data
         const sum = data.reduce((accumulator, object) => {
-            return accumulator + int(object.value);
+            return accumulator + float(object.y);
         }, 0);
 
 
@@ -137,8 +143,8 @@ class Donut {
             // should use class / contructor here
             // restructuring intial data to be a percentage and have a color
             let current = {
-                name: element.age,
-                percent: parseInt((element.value / sum) * 100,)
+                name: element.x,
+                percent: parseFloat((element.y / sum) * 100,)
             }
 
             // add them to final
@@ -149,5 +155,44 @@ class Donut {
         return final.sort((a, b) => a.percent - b.percent)
     }
 
+
+    // function for cleaning 2d data
+    cleanData(data) {
+
+        let cleaned = []
+
+        // get array of the keys
+        const keys = Object.keys(data[0])
+
+        // x lable
+        const xLable = keys[0]
+
+        // y lable
+        const yLable = keys[1]
+        
+        // create a new object with 
+        data.forEach(element => {
+            const current = {
+                x: element[xLable],
+                y: element[yLable]
+            }
+            
+            cleaned.push(current)
+        })
+        
+        return cleaned
+    }
+
+    // draw main title
+	mainTitle() {
+		push()
+		textSize(this.titleSize)
+		noStroke()
+		textAlign(CENTER)
+		rectMode(CENTER)
+		const titleWidth = this.width
+		text(this.title, 0, this.titleMargin, titleWidth)
+		pop()
+	}
 
 }
