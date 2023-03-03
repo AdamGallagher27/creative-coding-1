@@ -2,14 +2,20 @@
 
 class HorBarChart {
     // constructs object
-    constructor(_height, _width, _posX, _posY, _data, _xLable = '', _yLable = '') {
-        this.height = _height
-        this.width = _width
-        this.posX = _posX
-        this.posY = _posY
-        this.data = _data
-        this.xLable = _xLable
-        this.yLable = _yLable
+    constructor(height, width, posX, posY, data, xLable = '', yLable = '') {
+        this.height = height
+        this.width = width
+        this.posX = posX
+        this.posY = posY
+        this.xLable = xLable
+        this.yLable = yLable
+
+        // changed the keys in data to be X and Y
+        // cleanedData expects data to be an array of objects
+        // each object should have 2 properties
+        // first property is expected to be the X value
+        // second is the Y value
+		this.data = this.cleanData(data)
 
         // globals
         this.nBlocks = this.data.length
@@ -23,7 +29,7 @@ class HorBarChart {
 
         // calculations
         this.blockWidth = (this.height - (this.marginL * 2) - ((this.nBlocks - 1))) / this.nBlocks
-        this.maxVal = Math.max(...this.data.map(obj => obj.value))
+        this.maxVal = Math.max(...this.data.map(obj => obj.y))
         this.scaleData = this.height / this.maxVal
 
         // colors
@@ -73,7 +79,7 @@ class HorBarChart {
                 noStroke()
                 textAlign(RIGHT, CENTER)
                 fill(0)
-                text(this.data[i].year, -this.tickMargin, i * -tGap)
+                text(this.data[i].x, -this.tickMargin, i * -tGap)
                 stroke(100)
                 line(0, i * -tGap, this.tickWidth, -i * tGap)
             }
@@ -121,7 +127,7 @@ class HorBarChart {
             // set the grid system up right
             // draw the values foreach bar
             rotate(90)
-            this.barTitles([scaleData[i], this.blockWidth / 2], this.data[i].value)
+            this.barTitles([scaleData[i], this.blockWidth / 2], this.data[i].y)
             pop();
         }
     }
@@ -133,7 +139,7 @@ class HorBarChart {
 
         // add all the scale values to an array
         for (let i = 0; i < arr.length; i++) {
-            final.push(arr[i].value * scaleValue)
+            final.push(arr[i].y * scaleValue)
         }
 
         return final
@@ -188,6 +194,33 @@ class HorBarChart {
 
         // return the colour at colour index
         return color(this.colors[this.colorIndex])
+    }
+
+    // function for cleaning 2d data
+    cleanData(data) {
+
+        let cleaned = []
+
+        // get array of the keys
+        const keys = Object.keys(data[0])
+
+        // x lable
+        const xLable = keys[0]
+
+        // y lable
+        const yLable = keys[1]
+        
+        // create a new object with 
+        data.forEach(element => {
+            const current = {
+                x: element[xLable],
+                y: element[yLable]
+            }
+            
+            cleaned.push(current)
+        })
+        
+        return cleaned
     }
 
 }
