@@ -33,6 +33,8 @@ class StackedBarChart {
         // legend data
         this.medianYellow = "#FFD580"
         this.medianLine = {median: this.medianYellow}
+        this.medianRadius = 10
+        this.medianWeight = 4
         this.legendData = {...this.medianLine}
 
         // median array
@@ -40,6 +42,7 @@ class StackedBarChart {
 
         // colors
         this.colors = ['#004c6d', '#4c7c9b', '#86b0cc', '#c1e7ff']
+        this.dark = 10
     }
 
     // renders stacked bar chart to screen
@@ -88,7 +91,7 @@ class StackedBarChart {
     // draws the vertical axis
     drawAxis(vertical = true, lable = true) {
         noFill()
-        stroke(50)
+        stroke(this.dark)
 
         // if vertical is true draw the vertical line
         if (vertical) {
@@ -116,9 +119,9 @@ class StackedBarChart {
             for (let i = 0; i <= this.nTicks; i++) {
                 noStroke()
                 textAlign(RIGHT, CENTER)
-                fill(0)
+                fill(this.dark)
                 text(i * numGap.toFixed(0), tickMargin, i * -tGap)
-                stroke(100)
+                stroke(this.dark)
                 line(0, i * -tGap, -this.tickWidth, -i * tGap)
             }
         }
@@ -192,7 +195,7 @@ class StackedBarChart {
 
     // gives titles for everybar
     barTitle(data) {
-        fill(0)
+        fill(this.dark)
         textAlign(RIGHT, CENTER)
 
         // text angle / margin
@@ -238,6 +241,7 @@ class StackedBarChart {
         let final = []
         let posX = []
 
+
         // add scale value for median X 
         this.data.forEach(object => {
             posX.push(object.median * this.scaleValue)
@@ -250,8 +254,8 @@ class StackedBarChart {
             push()
             translate((currentGap + this.marginL) + (this.blockWidth / 2), -posX[i])
             final.push([(currentGap + this.marginL) + (this.blockWidth / 2), -posX[i]])
-            fill(255, 213, 128)
-            ellipse(0, 0, 10)
+            fill(this.medianYellow)
+            ellipse(0, 0, this.medianRadius)
             pop()
         }
 
@@ -262,9 +266,9 @@ class StackedBarChart {
     drawMedianLines(positions) {
 
         stroke(this.medianYellow)
-        strokeWeight(4)
+        strokeWeight(this.medianWeight)
 
-
+        // draw a line from the two coordinates in position variable
         for(let i = 0; i < positions.length - 1; i++) {
             line(...positions[i], ...positions[i + 1])
         }

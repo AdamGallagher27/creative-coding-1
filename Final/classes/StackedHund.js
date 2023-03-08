@@ -35,6 +35,7 @@ class StackedHund {
 
 		// colors
 		this.colors = ['#004c6d', '#4c7c9b', '#86b0cc', '#c1e7ff']
+		this.dark = 10
 	}
 
 	// renders stacked bar chart to screen
@@ -80,7 +81,7 @@ class StackedHund {
 	// draws the vertical axis
 	drawAxis(vertical = true, lable = true) {
 		noFill()
-		stroke(50)
+		stroke(this.dark)
 
 		// if vertical is true draw the vertical line
 		if (vertical) {
@@ -108,9 +109,9 @@ class StackedHund {
 			for (let i = 0; i <= this.nTicks; i++) {
 				noStroke()
 				textAlign(RIGHT, CENTER)
-				fill(0)
+				fill(this.dark)
 				text(i * numGap.toFixed(0), tickMargin, i * -tGap)
-				stroke(100)
+				stroke(this.dark)
 				line(0, i * -tGap, -this.tickWidth, -i * tGap)
 			}
 		}
@@ -120,12 +121,10 @@ class StackedHund {
 	// draws the bars on the chart
 	drawBars() {
 
-		console.log('called')
 		noStroke()
 
 		// draw each bar
 		for (let i = this.data.length - 1; i > -1; i--) {
-			console.log('first loop')
 
 			// move bar over to next position
 			push();
@@ -138,10 +137,7 @@ class StackedHund {
 
 			// loop over keys in current object 
 			for (const value in hundred) {
-				console.log('inner loop')
-
-				console.log(hundred[value])
-
+				
 				// create hundred colour and make it the fill
 				const col = this.colors[colorIndex]
 				fill(col)
@@ -183,7 +179,7 @@ class StackedHund {
 
 		// draw legend 
 		for (const property in obj) {
-			fill(0)
+			fill(this.dark)
 			text(property, this.width + textMargin, -this.height - textPos)
 			fill(obj[property])
 			ellipse(this.width + circleMargin, -this.height - textPos, circleSize)
@@ -196,7 +192,7 @@ class StackedHund {
 
 	// gives titles for everybar
 	barTitle(data) {
-		fill(0)
+		fill(this.dark)
 		textAlign(RIGHT, CENTER)
 
 		// text angle / margin

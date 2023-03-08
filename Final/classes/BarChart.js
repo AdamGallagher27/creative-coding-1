@@ -39,6 +39,7 @@ class BarChart {
         this.colorIndex = 0
         this.colors = ['#004c6d', '#4c7c9b', '#86b0cc', '#c1e7ff']
         this.firstPass = true
+        this.dark = 10
     }
 
 
@@ -103,18 +104,18 @@ class BarChart {
         if (lable) {
 
             // gaps between ticks
-            let tGap = this.height / this.nTicks
+            const tGap = this.height / this.nTicks
 
             // value to display beside each tick
-            let numGap = this.maxVal / this.nTicks
+            const numGap = this.maxVal / this.nTicks
 
             // draw each tick
             for (let i = 0; i <= this.nTicks; i++) {
                 noStroke()
                 textAlign(RIGHT, CENTER)
-                fill(0)
+                fill(this.dark)
                 text(i * numGap.toFixed(0), -this.tickWidth, i * -tGap)
-                stroke(100)
+                stroke(this.dark)
                 line(0, i * -tGap, -6, -i * tGap)
             }
         }
@@ -123,7 +124,7 @@ class BarChart {
 
     // adds the titles and values for each bar
     barTitle(height, value, title) {
-        fill(0)
+        fill(this.dark)
         const xAxis = (this.blockWidth / 2)
         const textAngle = -50
         textAlign(CENTER)

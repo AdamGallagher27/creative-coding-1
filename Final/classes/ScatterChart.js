@@ -9,19 +9,19 @@ class ScatterChart {
 		this.xLable = xLable
 		this.yLable = yLable
 		this.title = title
-		
+
 		// changed the keys in data to be X and Y
-        // cleanedData expects data to be an array of objects
-        // each object should have 2 properties
-        // first property is expected to be the X value
-        // second is the Y value
+		// cleanedData expects data to be an array of objects
+		// each object should have 2 properties
+		// first property is expected to be the X value
+		// second is the Y value
 		this.data = this.cleanData(data)
 
 		// globals
 		this.marginL = 20
 		this.marginT = 10
 		this.marginB = 10
-		this.marginAxisT = 70
+		this.marginAxisT = 90
 		this.marginAxisL = 50
 		this.tickWidth = 10
 		this.nTicks = 4
@@ -32,6 +32,7 @@ class ScatterChart {
 		this.maxVal = Math.max(...this.data.map(o => o.y))
 		this.scaleValue = this.height / this.maxVal
 		this.numPlots = this.data.length
+		this.dark = 10
 
 	}
 
@@ -58,6 +59,8 @@ class ScatterChart {
 
 		// gap for each plot
 		const gap = this.width / this.numPlots
+		const plotRadius = 10
+
 
 		push()
 
@@ -65,10 +68,10 @@ class ScatterChart {
 		translate(gap / 2, 0)
 
 		// add the plots and draw the lables
-		for(let i = 0; i < this.numPlots; i++) {
+		for (let i = 0; i < this.numPlots; i++) {
 			const element = this.data[i]
 			const currentHeight = this.findPlot(element.y)
-			ellipse(i * gap, -currentHeight, 10, 10)
+			ellipse(i * gap, -currentHeight, plotRadius, plotRadius)
 			this.valueTitle((i) * gap, element.x)
 		}
 		pop()
@@ -108,7 +111,8 @@ class ScatterChart {
 	// draws the vertical axis
 	drawAxis(vertical = true, lable = true) {
 		noFill()
-		stroke(50)
+		stroke(this.dark)
+
 
 		// if vertical is true draw the vertical line
 		if (vertical) {
@@ -129,14 +133,16 @@ class ScatterChart {
 			// value to display beside each tick
 			let numGap = this.maxVal / this.nTicks
 
+			const tickLength = -6
+
 			// draw each tick
 			for (let i = 0; i <= this.nTicks; i++) {
 				noStroke()
 				textAlign(RIGHT, CENTER)
-				fill(0)
+				fill(this.dark)
 				text(i * numGap.toFixed(0), -this.tickWidth, i * -tGap)
-				stroke(100)
-				line(0, i * -tGap, -6, -i * tGap)
+				stroke(this.dark)
+				line(0, i * -tGap, tickLength, -i * tGap)
 			}
 		}
 
@@ -144,40 +150,42 @@ class ScatterChart {
 
 	// adds the titles for each value
 	valueTitle(xPos, title) {
-        push()
+
+		const titleAngle = -50
+		push()
 		translate(xPos, 0)
 		textAlign(RIGHT, TOP)
 		noStroke()
-        rotate(-50)
-        text(title, 0, 0)
+		rotate(titleAngle)
+		text(title, 0, 0)
 		pop()
-    }
+	}
 
 
 	// function for cleaning 2d data
-    cleanData(data) {
+	cleanData(data) {
 
-        let cleaned = []
+		let cleaned = []
 
-        // get array of the keys
-        const keys = Object.keys(data[0])
+		// get array of the keys
+		const keys = Object.keys(data[0])
 
-        // x lable
-        const xLable = keys[0]
+		// x lable
+		const xLable = keys[0]
 
-        // y lable
-        const yLable = keys[1]
-        
-        // create a new object with 
-        data.forEach(element => {
-            const current = {
-                x: element[xLable],
-                y: element[yLable]
-            }
-            
-            cleaned.push(current)
-        })
-        
-        return cleaned
-    }
+		// y lable
+		const yLable = keys[1]
+
+		// create a new object with 
+		data.forEach(element => {
+			const current = {
+				x: element[xLable],
+				y: element[yLable]
+			}
+
+			cleaned.push(current)
+		})
+
+		return cleaned
+	}
 }

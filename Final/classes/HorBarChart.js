@@ -39,6 +39,7 @@ class HorBarChart {
         this.colorIndex = 0
         this.colors = ['#004c6d', '#4c7c9b', '#86b0cc', '#c1e7ff']
         this.firstPass = true
+        this.dark = 10
     }
 
     // render chart to the screen
@@ -72,7 +73,7 @@ class HorBarChart {
     // draws the vertical axis
     drawAxis(vertical = true, lable = true) {
         noFill()
-        stroke(50)
+        stroke(this.dark)
 
         // if vertical is true draw the vertical line
         if (vertical) {
@@ -91,15 +92,16 @@ class HorBarChart {
             // gaps between ticks
             let tGap = this.height / this.nBlocks
 
+
             translate(0, -tGap / 2)
 
             // draw each tick
             for (let i = 0; i < this.nBlocks; i++) {
                 noStroke()
                 textAlign(RIGHT, CENTER)
-                fill(0)
+                fill(this.dark)
                 text(this.data[i].x, -this.tickMargin, i * -tGap)
-                stroke(100)
+                stroke(this.dark)
                 line(0, i * -tGap, this.tickWidth, -i * tGap)
             }
 
@@ -120,7 +122,7 @@ class HorBarChart {
         // num gap for each lable
         for (let i = 0; i < this.numAxisValues + 1; i++) {
             const numGap = this.maxVal / this.numAxisValues
-            fill(0)
+            fill(this.dark)
             text(numGap.toFixed(0) * i, gap * i, textMargin)
         }
     }
@@ -176,7 +178,7 @@ class HorBarChart {
 
         // draw each title
         textAlign(LEFT, CENTER)
-        fill(0)
+        fill(this.dark)
         text(value, x + textMargin, y)
     }
 

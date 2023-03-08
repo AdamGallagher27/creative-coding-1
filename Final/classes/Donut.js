@@ -54,8 +54,7 @@ class Donut {
         
 
         // for center of donut
-        // ellipse(0, 0, this.width / 2)
-        // rect(0,0,100,100)
+        ellipse(0, 0, this.width / 2, this.height / 2)
         fill(0)
         this.mainTitle()
         pop()
