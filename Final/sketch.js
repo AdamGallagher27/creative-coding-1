@@ -143,6 +143,7 @@ const title = 'Organ Transplants Ireland 2021'
 
 
 function setup() {
+	textFont('Roboto')
 	createCanvas(screenWidth, screenHeight)
 	background(bg)
 	angleMode(DEGREES)
