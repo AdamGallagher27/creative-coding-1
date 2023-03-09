@@ -24,23 +24,21 @@ class StackedBarChart {
         this.marginAxisL = 50
         this.tickWidth = 6
         this.nTicks = 4
+        this.widthOffset = 6
+
 
         // calculations
-        this.blockWidth = (this.width - (this.marginL * 2) - ((this.nBlocks - 1))) / this.nBlocks
+        this.blockWidth = ((this.width - (this.marginL * 2) - ((this.nBlocks - 1))) / this.nBlocks) - this.widthOffset
         this.mainGap = this.blockWidth + this.valGap
         this.maxVal = Math.max(...this.data.map(o => int(o.total)))
         this.scaleValue = this.height / this.maxVal;
 
         // legend data
-        this.medianYellow = "#FFD580"
-        this.medianLine = { median: this.medianYellow }
-        this.medianRadius = 10
-        this.medianWeight = 4
-        this.legendData = { ...this.medianLine }
-        this.trackLegend = []
-
-        // median array
-        this.scaleMedian = []
+        this.meanYellow = "#FFD580"
+        this.meanLine = { mean: this.meanYellow }
+        this.meanRadius = 10
+        this.meanWeight = 4
+        this.legendData = { ...this.meanLine }
 
         // colors
         this.colors = ['#004c6d', '#4c7c9b', '#86b0cc', '#c1e7ff']
@@ -59,8 +57,8 @@ class StackedBarChart {
         this.drawLegend(this.legendData)
         this.barTitle(this.data)
         this.axisTitles()
-        const medianPosition = this.getMedianPositions()
-        this.drawMedianLines(medianPosition)
+        const meanPosition = this.getMeanPositions()
+        this.drawMeanLines(meanPosition)
         this.mainTitle()
         this.filterLegend(this.legendData)
         pop()
@@ -245,7 +243,7 @@ class StackedBarChart {
             push()
             translate((currentGap + this.marginL) + (this.blockWidth / 2), titleMargin)
             rotate(textAngle)
-            text(data[i].age_group, 0, 0)
+            text(data[i].title, 0, 0)
             pop()
         }
     }
@@ -265,22 +263,22 @@ class StackedBarChart {
         text(this.xLable, this.width / 2, this.marginAxisT)
 
         // Y axis lable
-        rotate(rotation)
-        text(this.yLable, this.height / 2, -this.marginAxisL)
+        textAlign(RIGHT, CENTER)
+        text(this.yLable, -this.marginAxisL , -this.height / 2, 0)
         pop()
 
     }
 
-    // gets the positions of the median lines
-    getMedianPositions() {
+    // gets the positions of the mean lines
+    getMeanPositions() {
 
         let final = []
         let posX = []
 
 
-        // add scale value for median X 
+        // add scale value for mean X 
         this.data.forEach(object => {
-            posX.push(object.median * this.scaleValue)
+            posX.push(object.mean * this.scaleValue)
         });
 
 
@@ -290,19 +288,19 @@ class StackedBarChart {
             push()
             translate((currentGap + this.marginL) + (this.blockWidth / 2), -posX[i])
             final.push([(currentGap + this.marginL) + (this.blockWidth / 2), -posX[i]])
-            fill(this.medianYellow)
-            ellipse(0, 0, this.medianRadius)
+            fill(this.meanYellow)
+            ellipse(0, 0, this.meanRadius)
             pop()
         }
 
         return final
     }
 
-    // draws the median lines
-    drawMedianLines(positions) {
+    // draws the mean lines
+    drawMeanLines(positions) {
 
-        stroke(this.medianYellow)
-        strokeWeight(this.medianWeight)
+        stroke(this.meanYellow)
+        strokeWeight(this.meanWeight)
 
         // draw a line from the two coordinates in position variable
         for (let i = 0; i < positions.length - 1; i++) {
@@ -335,8 +333,8 @@ class StackedBarChart {
         // total lable
         const total = keys[4]
 
-        // median lable
-        const median = keys[5]
+        // mean lable
+        const mean = keys[5]
 
         // create a new object with 
         data.forEach(element => {
@@ -346,7 +344,7 @@ class StackedBarChart {
                 b: element[bLable],
                 c: element[cLable],
                 total: element[total],
-                median: element[median],
+                mean: element[mean],
             }
 
 

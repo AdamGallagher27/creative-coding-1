@@ -13,6 +13,7 @@ class StackedHund {
 		this.title = title
 		this.titleSize = 18
 		this.titleMargin = -40
+		this.widthOffset = 6
 
 		// globals
 		this.valGap = 11
@@ -21,18 +22,18 @@ class StackedHund {
 		this.marginT = 10
 		this.marginB = 10
 		this.marginAxisT = 65
-		this.marginAxisL = 50
+		this.marginAxisL = 40
 		this.tickWidth = 6
 		this.nTicks = 4
 
 		// calculations
-		this.blockWidth = (this.width - (this.marginL * 2) - ((this.nBlocks - 1))) / this.nBlocks
+		this.blockWidth = ((this.width - (this.marginL * 2) - ((this.nBlocks - 1))) / this.nBlocks ) - this.widthOffset
 		this.mainGap = this.blockWidth + this.valGap
 		this.maxVal = 100
 		this.scaleValue = this.height / this.maxVal;
 
 		// legend data
-		this.legendData = { ...this.medianLine }
+		this.legendData = { ...this.meanLine }
 
 		// colors
 		this.colors = ['#004c6d', '#4c7c9b', '#86b0cc', '#c1e7ff']
@@ -241,7 +242,7 @@ class StackedHund {
 			push()
 			translate((currentGap + this.marginL) + (this.blockWidth / 2), titleMargin)
 			rotate(textAngle)
-			text(data[i].age_group, 0, 0)
+			text(data[i].title, 0, 0)
 			pop()
 		}
 	}
@@ -261,8 +262,8 @@ class StackedHund {
 		text(this.xLable, this.width / 2, this.marginAxisT)
 
 		// Y axis lable
-		rotate(rotation)
-		text(this.yLable, this.height / 2, -this.marginAxisL)
+        textAlign(RIGHT, CENTER)
+        text(this.yLable, -this.marginAxisL , -this.height / 2, 0)
 		pop()
 
 	}
@@ -307,8 +308,8 @@ class StackedHund {
 		// total lable
 		const total = keys[4]
 
-		// median lable
-		const median = keys[5]
+		// mean lable
+		const mean = keys[5]
 
 		// create a new object with 
 		data.forEach(element => {
@@ -318,7 +319,7 @@ class StackedHund {
 				b: element[bLable],
 				c: element[cLable],
 				total: element[total],
-				median: element[median],
+				mean: element[mean],
 			}
 
 			cleaned.push(current)
