@@ -58,15 +58,12 @@ class HorBarChart {
 
     // draw main title
 	mainTitle() {
-		push()
 		textSize(this.titleSize)
 		noStroke()
 		textAlign(CENTER)
 		rectMode(CENTER)
 		const titleWidth = this.width
-        rotate(90)
 		text(this.title, this.width / 2, -this.height + this.titleMargin, titleWidth)
-		pop()
 	}
 
 
@@ -192,8 +189,8 @@ class HorBarChart {
         text(this.xLable, this.width / 2, this.marginAxisT)
 
         // Y axis lable
-        rotate(-90)
-        text(this.yLable, this.height / 2, -this.marginAxisL)
+        textAlign(RIGHT, CENTER)
+        text(this.yLable, -this.marginAxisL , -this.height / 2, 0)
     }
 
     // color bars

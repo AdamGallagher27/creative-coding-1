@@ -102,8 +102,8 @@ class ScatterChart {
 		text(this.xLable, this.width / 2, this.marginAxisT)
 
 		// Y axis lable
-		rotate(-90)
-		text(this.yLable, this.height / 2, -this.marginAxisL)
+        textAlign(RIGHT, CENTER)
+        text(this.yLable, -this.marginAxisL , -this.height / 2, 0)
 		pop()
 	}
 

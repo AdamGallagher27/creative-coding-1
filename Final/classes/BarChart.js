@@ -24,7 +24,7 @@ class BarChart {
         this.marginT = 10
         this.marginB = 10
         this.marginAxisT = 70
-        this.marginAxisL = 50
+        this.marginAxisL = 35
         this.tickWidth = 10
         this.nTicks = 4
         this.titleSize = 18
@@ -80,8 +80,8 @@ class BarChart {
         text(this.xLable, this.width / 2, this.marginAxisT)
 
         // Y axis lable
-        rotate(-90)
-        text(this.yLable, this.height / 2, -this.marginAxisL)
+        textAlign(RIGHT, CENTER)
+        text(this.yLable, -this.marginAxisL , -this.height / 2, 0)
     }
 
 
