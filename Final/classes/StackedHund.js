@@ -6,7 +6,8 @@ class StackedHund {
 		this.width = width
 		this.posX = posX
 		this.posY = posY
-		this.data = data
+		this.data = this.cleanData(data)
+		this.oldData = data
 		this.xLable = xLable
 		this.yLable = yLable
 		this.title = title
@@ -46,6 +47,7 @@ class StackedHund {
 		this.drawAxis()
 		this.drawAxis(false)
 		this.drawBars()
+		this.filterLegend()
 		this.drawLegend(this.legendData)
 		this.barTitle(this.data)
 		this.axisTitles()
@@ -76,7 +78,7 @@ class StackedHund {
 		text(this.title, this.width / 2, -this.height + this.titleMargin, titleWidth)
 		pop()
 	}
-	
+
 
 	// draws the vertical axis
 	drawAxis(vertical = true, lable = true) {
@@ -131,13 +133,13 @@ class StackedHund {
 			translate(this.marginL + (i * this.mainGap), 0)
 
 			// this gets the current object and removes age_group && total
-			let current = (({ lung, heart, liver }) => ({ lung, heart, liver }))(this.data[i]);
+			let current = (({ a, b, c }) => ({ a, b, c }))(this.data[i]);
 			let hundred = this.scaleBars(current)
 			let colorIndex = 0
 
 			// loop over keys in current object 
 			for (const value in hundred) {
-				
+
 				// create hundred colour and make it the fill
 				const col = this.colors[colorIndex]
 				fill(col)
@@ -161,6 +163,39 @@ class StackedHund {
 
 		}
 
+
+	}
+
+
+	// filters the legend data
+	filterLegend() {
+
+		// gets the key namese from old data
+		// ie liver, heart, lung
+		const keys = Object.keys(this.oldData[0])
+
+		// array for the cleaned data property names
+		const lables = ['a', 'b', 'c']
+
+
+		let newLables = []
+
+		// titles to replace a, b, c
+		// the old titles are expected to be 
+		// in these positions
+		const aTitle = keys[1]
+		const bTitle = keys[2]
+		const cTitle = keys[3]
+
+		// add the new lables to the array
+		newLables.push(aTitle, bTitle, cTitle)
+
+		// replace the cleaned data with the old data names
+		lables.forEach((element, index) => {
+			const newKey = newLables[index]
+			this.legendData[newKey] = this.legendData[element]
+			delete this.legendData[element]
+		})
 
 	}
 
@@ -246,6 +281,50 @@ class StackedHund {
 		}
 
 		return object
+	}
+
+	// cleans csv data
+	// the csv data is expected to be in the correct order
+	cleanData(data) {
+
+		let cleaned = []
+
+		// get array of the keys
+		const keys = Object.keys(data[0])
+
+		// title lable
+		const title = keys[0]
+
+		// A lable
+		const aLable = keys[1]
+
+		// B lable
+		const bLable = keys[2]
+
+		// C lable
+		const cLable = keys[3]
+
+		// total lable
+		const total = keys[4]
+
+		// median lable
+		const median = keys[5]
+
+		// create a new object with 
+		data.forEach(element => {
+			const current = {
+				title: element[title],
+				a: element[aLable],
+				b: element[bLable],
+				c: element[cLable],
+				total: element[total],
+				median: element[median],
+			}
+
+			cleaned.push(current)
+		})
+
+		return cleaned
 	}
 
 }
