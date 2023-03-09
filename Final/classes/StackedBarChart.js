@@ -7,6 +7,7 @@ class StackedBarChart {
         this.posX = posX
         this.posY = posY
         this.data = this.cleanData(data)
+        this.oldData = data
         this.xLable = xLable
         this.yLable = yLable
         this.title = title
@@ -36,6 +37,7 @@ class StackedBarChart {
         this.medianRadius = 10
         this.medianWeight = 4
         this.legendData = { ...this.medianLine }
+        this.trackLegend = []
 
         // median array
         this.scaleMedian = []
@@ -53,16 +55,16 @@ class StackedBarChart {
         this.drawAxis()
         this.drawAxis(false)
         this.drawBars()
+        this.filterLegend()
         this.drawLegend(this.legendData)
         this.barTitle(this.data)
         this.axisTitles()
         const medianPosition = this.getMedianPositions()
         this.drawMedianLines(medianPosition)
         this.mainTitle()
-        this.cleanData(this.data)
+        this.filterLegend(this.legendData)
         pop()
     }
-
 
     // draw main title
     mainTitle() {
@@ -76,6 +78,7 @@ class StackedBarChart {
         pop()
     }
 
+    
 
     // scales data array
     scaleChart(arr) {
@@ -160,9 +163,44 @@ class StackedBarChart {
                 translate(0, blockHeight)
 
                 colorIndex += 1
+
+                this.legendData[value] = col
+                
             }
             pop();
         }
+    }
+
+    // filters the legend data
+    filterLegend() {
+        
+        // gets the key namese from old data
+        // ie liver, heart, lung
+        const keys = Object.keys(this.oldData[0])
+
+        // array for the cleaned data property names
+        const lables = ['a', 'b', 'c']
+
+
+        let newLables = []
+
+        // titles to replace a, b, c
+        // the old titles are expected to be 
+        // in these positions
+        const aTitle = keys[1]
+        const bTitle = keys[2]
+        const cTitle = keys[3]
+
+        // add the new lables to the array
+        newLables.push(aTitle, bTitle, cTitle)
+
+        // replace the cleaned data with the old data names
+        lables.forEach((element, index) => {
+            const newKey = newLables[index]
+            this.legendData[ newKey] = this.legendData[element]
+            delete this.legendData[element]
+        })
+
     }
 
     // draws legend for chart
@@ -180,7 +218,7 @@ class StackedBarChart {
 
         // draw legend 
         for (const property in obj) {
-            fill(0)
+            fill(this.dark)
             text(property, this.width + textMargin, -this.height - textPos)
             fill(obj[property])
             ellipse(this.width + circleMargin, -this.height - textPos, circleSize)
@@ -310,6 +348,7 @@ class StackedBarChart {
                 total: element[total],
                 median: element[median],
             }
+
 
             cleaned.push(current)
         })
