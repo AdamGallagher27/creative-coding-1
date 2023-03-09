@@ -6,7 +6,7 @@ class StackedBarChart {
         this.width = width
         this.posX = posX
         this.posY = posY
-        this.data = data
+        this.data = this.cleanData(data)
         this.xLable = xLable
         this.yLable = yLable
         this.title = title
@@ -32,10 +32,10 @@ class StackedBarChart {
 
         // legend data
         this.medianYellow = "#FFD580"
-        this.medianLine = {median: this.medianYellow}
+        this.medianLine = { median: this.medianYellow }
         this.medianRadius = 10
         this.medianWeight = 4
-        this.legendData = {...this.medianLine}
+        this.legendData = { ...this.medianLine }
 
         // median array
         this.scaleMedian = []
@@ -57,23 +57,24 @@ class StackedBarChart {
         this.barTitle(this.data)
         this.axisTitles()
         const medianPosition = this.getMedianPositions()
-        this.drawMedianLines( medianPosition )
+        this.drawMedianLines(medianPosition)
         this.mainTitle()
+        this.cleanData(this.data)
         pop()
     }
 
 
     // draw main title
-	mainTitle() {
-		push()
-		textSize(this.titleSize)
-		noStroke()
-		textAlign(CENTER)
-		rectMode(CENTER)
-		const titleWidth = this.width
-		text(this.title, this.width / 2, -this.height + this.titleMargin, titleWidth)
-		pop()
-	}
+    mainTitle() {
+        push()
+        textSize(this.titleSize)
+        noStroke()
+        textAlign(CENTER)
+        rectMode(CENTER)
+        const titleWidth = this.width
+        text(this.title, this.width / 2, -this.height + this.titleMargin, titleWidth)
+        pop()
+    }
 
 
     // scales data array
@@ -140,7 +141,7 @@ class StackedBarChart {
             translate(this.marginL + (i * this.mainGap), 0)
 
             // this gets the current object and removes age_group && total
-            const current = (({ lung, heart, liver }) => ({ lung, heart, liver }))(this.data[i]);
+            const current = (({ a, b, c }) => ({ a, b, c }))(this.data[i]);
             let colorIndex = 0
 
             // loop over keys in current object 
@@ -157,9 +158,6 @@ class StackedBarChart {
                 // translate up blockheight
                 rect(0, 0, this.blockWidth, blockHeight)
                 translate(0, blockHeight)
-
-                // add current value / current color to legend data
-                this.legendData[value] = col
 
                 colorIndex += 1
             }
@@ -245,8 +243,8 @@ class StackedBarChart {
         // add scale value for median X 
         this.data.forEach(object => {
             posX.push(object.median * this.scaleValue)
-        });  
-        
+        });
+
 
         // add X and Y position to final
         for (let i = 0; i < this.nBlocks; i++) {
@@ -269,10 +267,53 @@ class StackedBarChart {
         strokeWeight(this.medianWeight)
 
         // draw a line from the two coordinates in position variable
-        for(let i = 0; i < positions.length - 1; i++) {
+        for (let i = 0; i < positions.length - 1; i++) {
             line(...positions[i], ...positions[i + 1])
         }
 
 
+    }
+
+
+    cleanData(data) {
+
+        let cleaned = []
+
+        // get array of the keys
+        const keys = Object.keys(data[0])
+
+        // title lable
+        const title = keys[0]
+
+        // A lable
+        const aLable = keys[1]
+
+        // B lable
+        const bLable = keys[2]
+
+        // C lable
+        const cLable = keys[3]
+
+        // total lable
+        const total = keys[4]
+
+        // median lable
+        const median = keys[5]
+
+        // create a new object with 
+        data.forEach(element => {
+            const current = {
+                title: element[title],
+                a: element[aLable],
+                b: element[bLable],
+                c: element[cLable],
+                total: element[total],
+                median: element[median],
+            }
+
+            cleaned.push(current)
+        })
+
+        return cleaned
     }
 }
