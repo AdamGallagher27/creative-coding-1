@@ -18,11 +18,6 @@
 // amount of alternate surgeries from year 2014 to 2020
 
 
-// instanciate variables for csv data
-let digital
-let sales
-
-
 // data thats added to charts
 let stackedData
 let barData
@@ -76,8 +71,8 @@ function preload() {
 	// load transplant data from csv and return as array of objects
 	let hundred = loadTable('./data/transplant-data/hund-data.csv', 'csv', 'header', () => {
 		hundData = Object.values(hundred.getObject())
-		console.log("hundred data")
-		console.log(hundData)
+		// console.log("hundred data")
+		// console.log(hundData)
 	})
 
 }
@@ -147,7 +142,7 @@ const horBarChartYLable = "years"
 
 
 // screen dimensions
-const screenWidth = 1800
+const screenWidth = 1850
 const screenHeight = 1500
 const bg = 240
 const marginT = globalTitleSize
@@ -155,6 +150,9 @@ const title = 'Organ Transplants Ireland 2021'
 
 
 function setup() {
+
+	// the font doesnt load when you first load it
+	// you have to refresh the page
 	textFont('Roboto')
 	createCanvas(screenWidth, screenHeight)
 	background(bg)
@@ -189,7 +187,7 @@ function setup() {
 	const scatterChart = new ScatterChart(scatterChartHeight, scatterChartWidth, scatterChartPosX, scatterChartPosy, scatterData, scatterChartXLable, scatterChartYLable, scatterChartTitle)
 	scatterChart.render()
 	
-	// the stacked / 100% stacked chart work with any csv data as long as it fits the specified shape 
+	// the stacked / 100% stacked chart work with any csv data as long as it fits the specified shape
 	// this means stacked and 100% stacked data can be switched and the charts will work fine
 
 	// stacked bar chart
