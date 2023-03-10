@@ -25,7 +25,8 @@ class BarChart {
         this.marginB = 10
         this.marginAxisT = 70
         this.marginAxisL = 35
-        this.tickWidth = 10
+        this.tickMargin = 10
+        this.tickWidth = 6
         this.nTicks = 4
         this.titleSize = 18
         this.titleMargin = -290
@@ -88,7 +89,7 @@ class BarChart {
     // draws the vertical axis
     drawAxis(vertical = true, lable = true) {
         noFill()
-        stroke(50)
+        stroke(this.dark)
 
         // if vertical is true draw the vertical line
         if (vertical) {
@@ -114,9 +115,9 @@ class BarChart {
                 noStroke()
                 textAlign(RIGHT, CENTER)
                 fill(this.dark)
-                text(i * numGap.toFixed(0), -this.tickWidth, i * -tGap)
+                text(i * numGap.toFixed(0), -this.tickMargin, i * -tGap)
                 stroke(this.dark)
-                line(0, i * -tGap, -6, -i * tGap)
+                line(0, i * -tGap, -this.tickWidth, -i * tGap)
             }
         }
 

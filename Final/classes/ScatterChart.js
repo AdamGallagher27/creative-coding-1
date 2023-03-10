@@ -85,8 +85,7 @@ class ScatterChart {
 		noStroke()
 		textAlign(CENTER)
 		rectMode(CENTER)
-		const titleWidth = this.width
-		text(this.title, this.width / 2, this.titleMargin, titleWidth)
+		text(this.title, this.width / 2, this.titleMargin, this.width)
 		pop()
 	}
 

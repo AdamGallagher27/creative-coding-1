@@ -22,6 +22,7 @@ class Donut {
         this.colorIndex = 0
         this.colors = ['#004c6d', '#4c7c9b', '#86b0cc', '#c1e7ff']
         this.firstPass = true
+        this.dark = 10
     }
 
     
@@ -55,7 +56,7 @@ class Donut {
 
         // for center of donut
         ellipse(0, 0, this.width / 2, this.height / 2)
-        fill(0)
+        fill(this.dark)
         this.mainTitle()
         pop()
 
@@ -91,7 +92,7 @@ class Donut {
 
         // rotate by upright to make text upright
         rotate(upRight)
-        fill(0)
+        fill(this.dark)
         textAlign(LEFT)
         text(data.name + ` (${parseFloat(data.percent).toFixed(1)}%)`, this.lableOffSet, this.lableOffSet, this.labelWidth)
         pop()
@@ -143,7 +144,7 @@ class Donut {
             // restructuring intial data to be a percentage and have a color
             let current = {
                 name: element.x,
-                percent: parseFloat((element.y / sum) * 100,)
+                percent: parseFloat((element.y / sum) * 100)
             }
 
             // add them to final
@@ -189,8 +190,7 @@ class Donut {
 		noStroke()
 		textAlign(CENTER)
 		rectMode(CENTER)
-		const titleWidth = this.width
-		text(this.title, 0, this.titleMargin, titleWidth)
+		text(this.title, 0, this.titleMargin, this.width)
 		pop()
 	}
 

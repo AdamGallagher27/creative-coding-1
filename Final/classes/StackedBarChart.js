@@ -2,11 +2,12 @@
 class StackedBarChart {
     // constructs object
     constructor(height, width, posX, posY, data, xLable = '', yLable = '', title = '') {
+        
         this.height = height
         this.width = width
         this.posX = posX
         this.posY = posY
-        this.data = this.cleanData(data)
+        this.data = this.cleanData(data, this.show)
         this.oldData = data
         this.xLable = xLable
         this.yLable = yLable
@@ -31,7 +32,7 @@ class StackedBarChart {
         this.blockWidth = ((this.width - (this.marginL * 2) - ((this.nBlocks - 1))) / this.nBlocks) - this.widthOffset
         this.mainGap = this.blockWidth + this.valGap
         this.maxVal = Math.max(...this.data.map(o => int(o.total)))
-        this.scaleValue = this.height / this.maxVal;
+        this.scaleValue = this.height / this.maxVal
 
         // legend data
         this.meanYellow = "#FFD580"
@@ -43,6 +44,8 @@ class StackedBarChart {
         // colors
         this.colors = ['#004c6d', '#4c7c9b', '#86b0cc', '#c1e7ff']
         this.dark = 10
+
+       
     }
 
     // renders stacked bar chart to screen
@@ -253,7 +256,6 @@ class StackedBarChart {
         push()
         // size / rotation
         const size = 18
-        const rotation = -90
 
         textSize(size)
         textAlign(CENTER)
@@ -311,7 +313,7 @@ class StackedBarChart {
     }
 
 
-    cleanData(data) {
+    cleanData(data, show) {
 
         let cleaned = []
 
@@ -335,6 +337,7 @@ class StackedBarChart {
 
         // mean lable
         const mean = keys[5]
+
 
         // create a new object with 
         data.forEach(element => {
